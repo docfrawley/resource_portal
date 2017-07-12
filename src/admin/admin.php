@@ -5,7 +5,7 @@
         >ADD RESOURCE</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
           ng-click="adctrl.changeModule('edit')"
-        >EDIT/DELETE RESOURCES</button>
+        >EDIT/DELETE</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
         ng-click="adctrl.changeModule('analytics')"
         >ANALYTICS</button>
@@ -20,7 +20,7 @@
         >PENDING ({{adctrl.pendingLength}})</button>
 
   </div>
-  <div class="col-md-9">
+  <div class="col-sm-9">
     <div class="panel panel-default" ng-if="adctrl.which_module=='add'">
       <div class="panel-heading">
         <h3 class="panel-title">ADD RESOURCE...if you dare, {{adctrl.who.fname}}</h3>

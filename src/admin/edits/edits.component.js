@@ -169,6 +169,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
       .then(function (response){
         $ctrl.toEdit = true;
         $ctrl.ed_resources = response.data;
+        console.log($ctrl.ed_resources);
         // $ctrl.moreThanOne = ($ctrl.ed_res.length>1);
         // if (!$ctrl.moreThanOne){
         //   $ctrl.ed_resources = $ctrl.ed_res[0];

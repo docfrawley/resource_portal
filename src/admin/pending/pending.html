@@ -41,30 +41,18 @@
                 type="button" class="btn btn-primary" >GO LOOK AT RESOURCE</a><br />
           </div>
           <div class="col-sm-12" ng-if="$ctrl.whatDo=='delete'">
-            Are you sure you want to delete this entry? Whatever you've entered will be
+          <br />  Are you sure you want to delete this entry? Whatever you've entered will be
             gone, lost, forgotten, goodbye. Well, not really. You can 'resurrect' this resource.
           </div>
           <div class="col-sm-12" ng-if="$ctrl.whatDo=='approve'">
             <br /><form>
               <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label>Title</label>
+                    <label>Title (Type: {{$ctrl.resource.type_resource}})</label>
                     <input  type="text" class="form-control"
                             placeholder="{{$ctrl.resource.title}}"
                             >
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <label >Type</label>
-                    <select class="form-control"
-                            ng-model = "$ctrl.resource.type_resource"
-                            >
-                      <option value="youtube">Video ~ YouTube</option>
-                      <option value="Link">Link</option>
-                      <option value="PDF Upload">PDF Upload</option>
-                    </select>
                   </div>
                 </div>
               </div>
@@ -77,45 +65,11 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="row">
-                <div class="col-sm-9">
-                  <div class="form-group" ng-if="$ctrl.howUpload">
-                    <label for="exampleInputFile">File Input</label>
-                    <input type="file" class="form-control-file" ng-model = "$ctrl.pdfFile"
-                          name="file" aria-describedby="fileHelp"
-                          ngf-select
-                          accept="pdf/*" ngf-max-size="4MB">
-                  </div>
-                  <div class="form-group" ng-if="!$ctrl.howUpload">
-                    <label for="exampleInputEmail1">Link</label>
-                    <input type="text" ng-model="$ctrl.rlink" class="form-control"
-                            placeholder="{{$ctrl.rlink}}">
-                  </div>
-                </div>
-              </div> -->
 
-
-
-
-            <div class="row">
-              <div class="col-sm-6 text-center">
-                <h4>Possible Tags</h4>
-                <div ng-repeat="tag in $ctrl.tags">
-                  <button type="button" class="btn btn-primary btn-sm button_tag"
-                          ng-if="tag.show"
-                          ng-click="$ctrl.changeShow($index)">{{tag.display}}</button>
-                </div>
-              </div>
-              <div class="col-sm-6 text-center">
-                <h4>Tags For this Resource</h4>
-                <div ng-repeat="tag in $ctrl.tagsin">
-                  <button type="button" class="btn btn-primary btn-sm button_tag"
-                          ng-if="tag.show"
-                          ng-click="$ctrl.changeShow($index)">{{tag.display}}</button>
-                </div>
-              </div>
-            </div><br />
-          </div>
+              <tag-edits
+                tagstring="$ctrl.tagstring"
+                change-string = "$ctrl.newstring(nstring)"
+                ></tag-edits>
           </form>
        </div>
       </div>
@@ -123,16 +77,10 @@
       <div class="modal-footer">
         <div ng-if="!$ctrl.madeDelete">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCEL</button>
-          <button ng-if="$ctrl.which_resource.doshow=='p' && $ctrl.level!='super'"
-                  type="button" class="btn btn-primary"
-          ng-click="$ctrl.doDelete('delete')">DELETE</button>
 
           <button ng-if="$ctrl.level=='super'" type="button" class="btn btn-primary"
           ng-click="$ctrl.doDelete('delete')">DELETE</button>
 
-          <button ng-if="$ctrl.level == 'super' && $ctrl.which_resource.doshow=='s'"
-          type="button" class="btn btn-primary"
-          ng-click="$ctrl.doDelete('pending')">REDUCE TO PENDING</button>
         </div>
         <div ng-if="$ctrl.madeDelete">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"
