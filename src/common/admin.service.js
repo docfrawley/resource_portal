@@ -159,6 +159,23 @@ function AdminService($http, ApiPath, Upload) {
       }
     });
     return response;
+  };
+
+  service.adOredUser = function(whatDo, user){
+    var response = $http({
+      method: "POST",
+      url: (ApiPath +"aoreuser.php"),
+      data: {
+        whatDo:   whatDo,
+        numindex: user.numindex,
+        fname:    user.fname,
+        lname:    user.lname,
+        netid:    user.netid,
+        level:    user.level,
+        webhook:  user.webhook
+      }
+    });
+    return response;
   }
 
 }

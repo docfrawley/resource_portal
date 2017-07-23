@@ -30,31 +30,31 @@ class userAdmin {
 		return $returnArray;
 	}
 
-	function add_user($info){
+	function addUser($fname, $lname, $netid, $level, $webhook){
 		global $database;
+		$current = true;
     $sql = "INSERT INTO userlist (";
 	  	$sql .= "fname, lname, netid, level, current, webhook";
 	  	$sql .= ") VALUES ('";
-	  	$sql .= $database->escape_value($info['fname']) ."', '";
-      $sql .= $database->escape_value($info['lname']) ."', '";
-      $sql .= $database->escape_value($info['netid']) ."', '";
-			$sql .= $database->escape_value($info['level']) ."', '";
-			$sql .= $database->escape_value($info['current']) ."', '";
-		  $sql .= $database->escape_value($info['webhook']) ."')";
+	  	$sql .= $fname ."', '";
+      $sql .= $lname ."', '";
+      $sql .= $netid ."', '";
+			$sql .= $level ."', '";
+			$sql .= $current ."', '";
+		  $sql .= $webhook ."')";
 		$database->query($sql);
 	}
 
-	function updateUser($fname, $lname, $netid, $level, $current, $webhook){
+	function editUser($numindex, $fname, $lname, $netid, $level, $webhook){
 		global $database;
 
 		$sql = "UPDATE userlist SET ";
-		$sql .= "fname='". $database->escape_value($fname) ."', ";
-		$sql .= "lname='". $database->escape_value($lname) ."', ";
-		$sql .= "netid='". $database->escape_value($netid) ."', ";
-		$sql .= "level='". $database->escape_value($level) ."', ";
-		$sql .= "current='". $database->escape_value($current) ."', ";
-		$sql .= "webhook='". $database->escape_value($webhook) ."' ";
-		$sql .= "WHERE numid='". $this->numindex . "' ";
+		$sql .= "fname='". $fname ."', ";
+		$sql .= "lname='". $lname ."', ";
+		$sql .= "netid='". $netid ."', ";
+		$sql .= "level='". $level ."', ";
+		$sql .= "webhook='". $webhook ."' ";
+		$sql .= "WHERE numindex='". $numindex . "' ";
 		$database->query($sql);
 	}
 

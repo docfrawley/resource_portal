@@ -55,9 +55,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 ng-if="$ctrl.whatDoing=='editUser'"
-            class="modal-title" id="exampleModalLabel">Edit "{{$ctrl.resource.title}}"</h5>
+            class="modal-title" id="exampleModalLabel">Edit {{$ctrl.user.fname}}
+                  {{$ctrl.user.lname}}</h5>
         <h5 ng-if="$ctrl.whatDoing=='deleteUser'"
-            class="modal-title" id="exampleModalLabel">Delete {{$ctrl.user.display}} From Active Users List</h5>
+            class="modal-title" id="exampleModalLabel">Delete {{$ctrl.user.display}}
+                  From Active Users List</h5>
         <h5 ng-if="$ctrl.whatDoing=='addUser'"
             class="modal-title" id="exampleModalLabel">Add User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -67,15 +69,19 @@
 
       <div class="modal-body" >
         <div class="row" ng-if="$ctrl.madeAction">
-          <div class="col-sm-12" ng-if="$ctrl.whatDoing=='editUser'" class="alert alert-success" role="alert">
+          <div  class="col-sm-12" ng-if="$ctrl.whatDoing=='editUser'"
+                class="alert alert-success" role="alert">
             Changes were successfully made. Feel free to thank this humble website.
           </div>
-          <div class="col-sm-12" ng-if="$ctrl.whatDoing=='deleteUser'" class="alert alert-success" role="alert">
+          <div  class="col-sm-12" ng-if="$ctrl.whatDoing=='deleteUser'"
+                class="alert alert-success" role="alert">
             Resource was successfully deleted.
             A moment of silence for our dearly departed user....ok back to work.
           </div>
-          <div class="col-sm-12" ng-if="$ctrl.whatDoing=='addUser'" class="alert alert-success" role="alert">
-            Added {{$ctrl.user.name}} to the active users list, and I didn't charge you this time...
+          <div  class="col-sm-12" ng-if="$ctrl.whatDoing=='addUser'"
+                class="alert alert-success" role="alert">
+            Added {{$ctrl.user.name}} to the active users list,
+            and I didn't charge you this time...
           </div>
         </div>
         <div class=row ng-if="!$ctrl.madeAction">
@@ -83,20 +89,20 @@
             <br />  Are you sure you want to delete {{$ctrl.user.display}}
             from the Active User List?
           </div>
-          <div class="col-sm-12" ng-if="$ctrl.whatDoing=='editUser'">
+          <div class="col-sm-12" ng-if="$ctrl.whatDoing!='deleteUser'">
             <form>
                 <div class="row">
                   <div class="col-sm-6">
                     <label>First Name</label>
                     <input  type="text" class="form-control"
                             placeholder="{{$ctrl.user.fname}}"
-                            ng-model = "$ctrl.e.fname">
+                            ng-model = "$ctrl.user.fname">
                   </div>
                   <div class="col-sm-6">
                     <label>Last Name</label>
                     <input  type="text" class="form-control"
                             placeholder="{{$ctrl.user.lname}}"
-                            ng-model = "$ctrl.e.lname">
+                            ng-model = "$ctrl.user.lname">
                   </div>
                 </div>
                 <div class="row">
@@ -104,40 +110,29 @@
                     <label>Netid</label>
                     <input  type="text" class="form-control"
                             placeholder="{{$ctrl.user.netid}}"
-                            ng-model = "$ctrl.e.netid">
+                            ng-model = "$ctrl.user.netid">
                   </div>
                   <div class="col-sm-6">
-                    <label>Level</label>
-                    <input  type="text" class="form-control"
-                            placeholder="{{$ctrl.user.lname}}"
-                            ng-model = "$ctrl.e.lname">
+                    <div class="form-group">
+                      <label>Level</label>
+                      <select class="form-control"
+                              ng-model = "$ctrl.user.level">
+                        <option value="super">super</option>
+                        <option value="user">user</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-12">
-                    <div class="form-group">
-                      <label for="exampleTextarea">Description</label>
-                      <textarea class="form-control" rows="3"
-                                ng-model="$ctrl.description">{{$ctrl.description}}</textarea>
-                    </div>
-                  </div>
+                    <a href="https://api.slack.com/apps/A6BBNNDR8/incoming-webhooks?success=1"
+                        target="_blank" class="btn btn-info btn-xs">
+                        <label>Slack Webhook</label></a>
+                         <br/><input  type="text" class="form-control"
+                            placeholder="{{$ctrl.user.webhook}}"
+                            ng-model = "$ctrl.user.webhook">  </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-9">
-                    <div class="form-group" ng-if="$ctrl.howUpload">
-                      <label for="exampleInputFile">File Input</label>
-                      <input type="file" class="form-control-file" ng-model = "$ctrl.pdfFile"
-                            name="file" aria-describedby="fileHelp"
-                            ngf-select
-                            accept="pdf/*" ngf-max-size="4MB">
-                    </div>
-                    <div class="form-group" ng-if="!$ctrl.howUpload">
-                      <label for="exampleInputEmail1">Link</label>
-                      <input type="text" ng-model="$ctrl.rlink" class="form-control"
-                              placeholder="{{$ctrl.rlink}}">
-                    </div>
-                  </div>
-                </div>
+
             </form>
           </div>
 
@@ -148,9 +143,12 @@
             ng-if="!$ctrl.madeAction" data-dismiss="modal" >CANCEL</button>
           <button ng-if="$ctrl.whatDoing == 'deleteUser' && !$ctrl.madeAction" type="button"
                   class="btn btn-primary" ng-click="$ctrl.deleteUser()"
-                  >DELETE</button>
-          <button ng-if="$ctrl.whatDoing == 'approve' && !$ctrl.madeAction" type="button"
-                  class="btn btn-primary"
+                  >DELETE USER</button>
+          <button ng-if="$ctrl.whatDoing == 'editUser' && !$ctrl.madeAction" type="button"
+                  class="btn btn-primary" ng-click="$ctrl.aOreUser('edit')"
+                  >EDIT USER</button>
+          <button ng-if="$ctrl.whatDoing == 'addUser' && !$ctrl.madeAction" type="button"
+                  class="btn btn-primary" ng-click="$ctrl.aOreUser('add')"
                   >ADD USER</button>
         <div ng-if="$ctrl.madeAction">
           <button type="button" class="btn btn-secondary"

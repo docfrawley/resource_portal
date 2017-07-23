@@ -20,7 +20,6 @@ $ctrl.madeAction = false;
     AdminService.getUsers()
     .then(function (response){
       $ctrl.user_list = response.data;
-      console.log($ctrl.user_list);
     })
     .catch(function (error) {
       console.log(error);
@@ -35,18 +34,34 @@ $ctrl.madeAction = false;
       AdminService.getUser($ctrl.user_list[index].numindex)
       .then(function(response){
         $ctrl.user = response.data;
-        console.log($ctrl.user);
       })
       .catch(function (error) {
         console.log(error);
       });
+    } else if (what=='addUser') {
+      $ctrl.user = {};
     } else {
       $ctrl.user = $ctrl.user_list[index];
     }
   };
 
-  $ctrl.editUser = function(){
-
+  $ctrl.aOreUser = function(aOre){
+    console.log($ctrl.user);
+    AdminService.adOredUser(aOre, $ctrl.user)
+    .then(function(response){
+      console.log((response.data));
+      AdminService.getUsers()
+      .then(function (response){
+        $ctrl.user_list = response.data;
+        $ctrl.madeAction = true;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
 
   $ctrl.deleteUser = function(){
@@ -64,7 +79,7 @@ $ctrl.madeAction = false;
     .catch(function(error){
       console.log(error);
     });
-}
+  }
 
 }
 
