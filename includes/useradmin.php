@@ -3,7 +3,6 @@
 class userAdmin {
 
 	private $users;
-	private $tag;
 
 
 	function __construct() {
@@ -12,7 +11,7 @@ class userAdmin {
 
 	function set_array(){
 		global $database;
-		$sql="SELECT * FROM userlist ORDER By netid";
+		$sql="SELECT * FROM userlist ORDER By lname";
 		$result_set = $database->query($sql);
     while ($value = $database->fetch_array($result_set)) {
 			array_push($this->users, $value);
@@ -34,32 +33,38 @@ class userAdmin {
 	function add_user($info){
 		global $database;
     $sql = "INSERT INTO userlist (";
-	  	$sql .= "fname, lname, netid, level";
+	  	$sql .= "fname, lname, netid, level, current, webhook";
 	  	$sql .= ") VALUES ('";
 	  	$sql .= $database->escape_value($info['fname']) ."', '";
       $sql .= $database->escape_value($info['lname']) ."', '";
       $sql .= $database->escape_value($info['netid']) ."', '";
-		  $sql .= $database->escape_value($info['level']) ."')";
+			$sql .= $database->escape_value($info['level']) ."', '";
+			$sql .= $database->escape_value($info['current']) ."', '";
+		  $sql .= $database->escape_value($info['webhook']) ."')";
 		$database->query($sql);
 	}
 
-	function update_user($info){
-    global $database;
-    $sql = "UPDATE userlist SET ";
-		$sql .= "fname='". $database->escape_value($info['fname']) ."', ";
-    $sql .= "lname='". $database->escape_value($info['lname']) ."', ";
-    $sql .= "netid='". $database->escape_value($info['netid']) ."', ";
-    $sql .= "title='". $database->escape_value($info['level']) ."' ";
-		$sql .= "WHERE numindex='". $database->escape_value($info['numindex']). "' ";
+	function updateUser($fname, $lname, $netid, $level, $current, $webhook){
+		global $database;
+
+		$sql = "UPDATE userlist SET ";
+		$sql .= "fname='". $database->escape_value($fname) ."', ";
+		$sql .= "lname='". $database->escape_value($lname) ."', ";
+		$sql .= "netid='". $database->escape_value($netid) ."', ";
+		$sql .= "level='". $database->escape_value($level) ."', ";
+		$sql .= "current='". $database->escape_value($current) ."', ";
+		$sql .= "webhook='". $database->escape_value($webhook) ."' ";
+		$sql .= "WHERE numid='". $this->numindex . "' ";
 		$database->query($sql);
 	}
 
-  function delete_user($numindex){
+  function deleteuser($numindex){
     global $database;
-    $sql = "DELETE FROM userlist ";
-      $sql .= "WHERE numindex=". $database->escape_value($numindex);
-      $sql .= " LIMIT 1";
-    $database->query($sql);
+		$current = false;
+		$sql = "UPDATE userlist SET ";
+		$sql .= "current='0' ";
+		$sql .= "WHERE numindex='". $numindex . "' ";
+		$database->query($sql);
 	}
 
   function get_users_list(){
@@ -87,17 +92,26 @@ class userAdmin {
 	function get_users(){
 		global $database;
     $returnArray = array();
-    $sql="SELECT * FROM userlist ORDER BY lname";
+    $sql="SELECT * FROM userlist WHERE current = 1 ORDER BY lname";
 		$result_set = $database->query($sql);
 		while ($value = $database->fetch_array($result_set)) {
 			$name = $value['fname'].' '.$value['lname'];
 			$t_array = array(
-				'display'			=> $name,
+				'display'		=> $name,
+				'level'			=> $value['level'],
 				'numindex'	=> $value['numindex']
 			);
 			array_push($returnArray, $t_array);
 		}
 		return $returnArray;
+	}
+
+	function get_user($index=1) {
+		global $database;
+    $sql="SELECT * FROM userlist WHERE numindex = '".$index."'";
+		$result_set = $database->query($sql);
+		$value = $database->fetch_array($result_set);
+		return $value;
 	}
 
 }

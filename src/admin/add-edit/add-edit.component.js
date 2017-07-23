@@ -99,6 +99,7 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
     AdminService.aOreResource($ctrl.numid, $ctrl.pdfFile, $ctrl.what, tagstring,
               $ctrl.type_resource, $ctrl.title, $ctrl.description, $ctrl.rlink)
       .then(function (response){
+        console.log("what I got: ", response);
         if ($ctrl.what=='add'){
           $ctrl.added = true;
           for (var i = 0; i < $ctrl.tagsin.length; i++) {
@@ -115,6 +116,11 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
         }
         $ctrl.partOne = !$ctrl.partOne;
       })
+      // .then(function (response){
+      //   AdminService.sendNotice().then(function(response){
+      //     console.log("what I got back: ", response.data);
+      //   });
+      // })
       .catch(function (error) {
         console.log(error);
       });

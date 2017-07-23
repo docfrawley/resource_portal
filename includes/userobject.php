@@ -12,7 +12,6 @@ class userObject {
 
 	function __construct($numid) {
     global $database;
-    $this->resources = array();
     $sql="SELECT * FROM userlist WHERE numindex='".$numid."'";
 		$result_set = $database->query($sql);
     $value = $database->fetch_array($result_set);
@@ -47,21 +46,19 @@ class userObject {
     return $this->level;
   }
 
-	// function set_resources(){
-	// 	global $database;
-	// 	$sql="SELECT * FROM resources WHERE who='".$this->numindex."' ORDER BY title";
-	// 	$result_set = $database->query($sql);
-	// 	while ($value = $database->fetch_array($result_set)) {
-	// 		$value['wupload'] = date('m/d/y',$value['wupload']);
-	// 		$value['who'] = $this->fname.' '.$this->lname;
-	// 		array_push($this->resources, $value);
-  //   }
-	// }
+	function updateUser($fname, $lname, $netid, $level, $current, $webhook){
+		global $database;
 
-  function get_resources(){
-    $this->set_resources();
-    return $this->resources;
-  }
+		$sql = "UPDATE userlist SET ";
+		$sql .= "fname='". $database->escape_value($title) ."', ";
+		$sql .= "lname='". $database->escape_value($type) ."', ";
+		$sql .= "netid='". $database->escape_value($description) ."', ";
+		$sql .= "level='". $database->escape_value($link) ."', ";
+		$sql .= "current='". $database->escape_value($tags) ."', ";
+		$sql .= "webhook='". $database->escape_value($tags) ."' ";
+		$sql .= "WHERE numid='". $this->numindex . "' ";
+		$database->query($sql);
+	}
 
 }
 ?>

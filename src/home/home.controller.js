@@ -73,21 +73,22 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
     hctrl.searchText = "";
     hctrl.selectedItem = "";
   }
-  hctrl.goSearch = function(what_kind){
+  hctrl.goSearch = function(hsearch){
     hctrl.search = hctrl.searchText;
-    if (hctrl.states_array.indexOf(hctrl.search)>-1){
-      HomeService.searchRequest(hctrl.search, what_kind, 's')
-        .then(function (response){
-          hctrl.results = response.data;
+    var inTags = hctrl.states_array.indexOf(hctrl.search)!=-1;
+    console.log(hctrl.search, hsearch, 's', inTags);
+    HomeService.searchRequest(hctrl.search, hsearch, 's', inTags)
+      .then(function (response){
+        hctrl.results = response.data;
+        if (hctrl.results.length>0){
           hctrl.showsearch = true;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else {
-      hctrl.notag = true;
-    }
-
+        } else {
+          hctrl.notag = true;
+        }
+      })
+      .catch(function (error) {
+        console.lsaog(error);;;;;;asdf
+      });
   };
 
 };

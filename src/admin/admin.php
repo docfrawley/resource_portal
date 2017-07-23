@@ -10,7 +10,7 @@
         ng-click="adctrl.changeModule('analytics')"
         >ANALYTICS</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
-        ng-click="adctrl.changeModule('analytics')" ng-if="adctrl.who.level=='super'"
+        ng-click="adctrl.changeModule('useradmin')" ng-if="adctrl.who.level=='super'"
         >USER ADMIN</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
         ng-click="adctrl.changeModule('nudge')" ng-if="adctrl.who.level=='super'"
@@ -40,7 +40,11 @@
       title = "PENDING RESOURCES"
       who = "adctrl.who"
       list = 'adctrl.pending'
+      update-pendings = 'adctrl.updatePendingNums()'
       ></pending-resources>
+      <user-admin ng-if="adctrl.which_module=='useradmin'"
+        title = "USER ADMINISTRATION"
+      ></user-admin>
   </div>
 
 

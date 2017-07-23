@@ -15,7 +15,11 @@ function AdminController(AdminService, netids, whoDetails, pending) {
   adctrl.pending = pending.data;
 
   adctrl.changeModule = function(which_mod){
-    if (which_mod == 'pending'){
+    switch (which_mod) {
+      case 'useradmin':
+
+        break;
+      case 'pending':
       AdminService.getPending()
       .then(function (response){
         adctrl.pendingLength = pending.data.length;
@@ -24,8 +28,18 @@ function AdminController(AdminService, netids, whoDetails, pending) {
       .catch(function (error) {
         console.log(error);
       });
+        break;
+      default:
+        break;
     }
     adctrl.which_module = which_mod;
+  };
+
+  adctrl.updatePendingNums = function(){
+
+        console.log("pending num: ", adctrl.pendingLength);
+        adctrl.pendingLength --;
+        console.log("pending num: ", adctrl.pendingLength);
   };
 
 

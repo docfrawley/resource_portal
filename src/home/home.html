@@ -1,17 +1,17 @@
 <div class="row" ng-if="!hctrl.showsearch">
   <div class="col-sm-4">
     <showcase
-    title="Profile"
+    title="INSPIRATION"
       list="hctrl.fpvids.profile"></showcase>
   </div>
   <div class="col-sm-4">
     <showcase
-      title="Staff Tip"
+      title="ADVICE"
       list="hctrl.fpvids.staff"></showcase>
   </div>
   <div class="col-sm-4">
     <showcase
-      title="What's Happening"
+      title="OPPORTUNITIES"
       list="hctrl.fpvids.happening"></showcase>
   </div>
 </div>
@@ -50,6 +50,9 @@
 
         <div class="panel-body" ng-if="!hctrl.showsearch" layout="column" ng-cloak>
           <md-content class="md-padding">
+            <div>ENTER THE WORD THAT BEST DESCRIBES WHAT YOU'RE LOOKING FOR</div>
+            <div>Even if we don't have a matching tag, we'll take a look to
+              see what we have for you.</div><br />
             <div>{{hctrl.myHeader}}</div><br />
             <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
               <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
@@ -70,7 +73,7 @@
                   <span md-highlight-text="hctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
                 </md-item-template>
                 <md-not-found>
-                  No tags matching "{{hctrl.searchText}}" were found.
+                  No tags matching "{{hctrl.searchText}}" were found, but keep typing; we'll do our best to see if we have what you request.
                 </md-not-found>
               </md-autocomplete>
               <br/>
@@ -82,7 +85,7 @@
           </md-content>
         </div>
         <div class="panel-body" ng-if="hctrl.showsearch">
-          <div ng-repeat="item in hctrl.results">
+          <div ng-repeat="item in hctrl.results track by $index">
             <show-results
                 title={{item.title}}
                 list="item"></show-results>

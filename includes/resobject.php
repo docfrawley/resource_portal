@@ -132,6 +132,14 @@ class resObject {
 		$database->query($sql);
 	}
 
+	function dResource(){
+		global $database;
+		$sql = "UPDATE resources SET ";
+		$sql .= "doshow='ds' ";
+		$sql .= "WHERE numid='". $this->numid. "' ";
+		$database->query($sql);
+	}
+
 	function updateResource($tags, $type, $title, $description, $link, $pdfFile){
 		global $database;
 		$sql = "UPDATE resources SET ";
@@ -141,6 +149,17 @@ class resObject {
 		$sql .= "rlink='". $database->escape_value($link) ."', ";
 		$sql .= "tags='". $database->escape_value($tags) ."', ";
 		$sql .= "doshow='p' ";
+		$sql .= "WHERE numid='". $this->numid . "' ";
+		$database->query($sql);
+	}
+
+	function approveResource($tags, $title, $description){
+		global $database;
+		$sql = "UPDATE resources SET ";
+		$sql .= "title='". $database->escape_value($title) ."', ";
+		$sql .= "description='". $database->escape_value($description) ."', ";
+		$sql .= "tags='". $database->escape_value($tags) ."', ";
+		$sql .= "doshow='s' ";
 		$sql .= "WHERE numid='". $this->numid . "' ";
 		$database->query($sql);
 	}

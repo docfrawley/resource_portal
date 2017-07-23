@@ -3,7 +3,7 @@
 
 angular.module('common')
 .service('AdminService', AdminService)
-.constant('ApiPath', 'http://localhost:8888/rportal/ajax/');
+.constant('ApiPath', 'http://localhost:8888/resource_portal/ajax/');
 
 
 AdminService.$inject = ['$http', 'ApiPath', 'Upload'];
@@ -65,6 +65,18 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.getUser = function(index) {
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task:   'getUser',
+        index:  index
+      }
+    });
+    return response;
+  };
+
   service.getResources = function(searchwhat, numindex, searching){
     var response = $http({
       method: "GET",
@@ -79,6 +91,18 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.dResource = function(numid){
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task: 'dresource',
+        numid:  numid
+      }
+    });
+    return response;
+  };
+
   service.doDelete = function(numid, level, status){
     var response = $http({
       method: "GET",
@@ -88,6 +112,18 @@ function AdminService($http, ApiPath, Upload) {
         numid:  numid,
         level:  level,
         status: status
+      }
+    });
+    return response;
+  };
+
+  service.deleteUser = function(numindex) {
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task: 'deleteuser',
+        numindex:  numindex
       }
     });
     return response;
@@ -111,6 +147,19 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.approveResource = function(numid, tagstring, title, description){
+    var response = $http({
+      method: "POST",
+      url: (ApiPath +"approveResource.php"),
+      data: {
+        numid:        numid,
+        tags:         tagstring,
+        title:        title,
+        description:  description
+      }
+    });
+    return response;
+  }
 
 }
 

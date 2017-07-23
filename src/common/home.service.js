@@ -3,7 +3,7 @@
 
 angular.module('common')
 .service('HomeService', HomeService)
-.constant('ApiPath', 'http://localhost:8888/rportal/ajax/');
+.constant('ApiPath', 'http://localhost:8888/resource_portal/ajax/');
 
 
 HomeService.$inject = ['$http', 'ApiPath'];
@@ -43,15 +43,16 @@ function HomeService($http, ApiPath) {
     return response;
   };
 
-  service.searchRequest = function(tag, hsearch, what_kind){
+  service.searchRequest = function(tag, hsearch, what_kind, inTags){
     var response = $http({
       method: "GET",
       url: (ApiPath +"ajaxfiles.php"),
       params: {
-        task:     'get_search',
-        tag:      tag,
-        hsearch:  hsearch,
-        what_kind:what_kind
+        task:       'get_search',
+        tag:        tag,
+        hsearch:    hsearch,
+        what_kind:  what_kind,
+        inTags:     inTags
       }
     });
     return response;

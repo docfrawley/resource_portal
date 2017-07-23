@@ -24,6 +24,17 @@ switch ($task) {
   case 'getUsers':
     $temp_array = $users->get_users();
     break;
+  case 'getUser':
+    $index = $database->escape_value($_GET['index']);
+    $temp_array = $users->get_user($index);
+    break;
+  case 'deleteuser':
+    $numindex = $database->escape_value($_GET['numindex']);
+    $users->deleteuser($numindex);
+    $temp_array = array(
+      'success'=>$numindex
+    );
+    break;
   case 'netids':
     $temp_array = $users->get_netids();
     break;
@@ -42,8 +53,9 @@ switch ($task) {
   case 'get_search':
     $how_show = $database->escape_value($_GET['what_kind']);
     $tag = $database->escape_value($_GET['tag']);
-    $how_search = $database->escape_value($_GET['hsearch']);
-    $temp_array = $admin->get_search_results($tag, $how_search, $how_show);
+    $hsearch = $database->escape_value($_GET['hsearch']);
+    $inTags = $database->escape_value($_GET['inTags']);
+    $temp_array = $admin->get_search_results($tag, $hsearch, $how_show, $inTags);
     break;
   case 'deleteresource':
     $numid = $database->escape_value($_GET['numid']);
@@ -54,6 +66,14 @@ switch ($task) {
     $what = $resource->get_doshow();
     $temp_array = array(
       'success'=>$what
+    );
+    break;
+  case 'dresource':
+    $numid = $database->escape_value($_GET['numid']);
+    $resource = new resObject($numid);
+    $resource->dResource();
+    $temp_array = array(
+      'success'=>$numid
     );
     break;
   default:

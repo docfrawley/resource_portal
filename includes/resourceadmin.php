@@ -156,20 +156,37 @@ class resourceAdmin {
 		return $value['id'];
 	}
 
-	function get_search_results($tag, $how_search='views', $what='a', $level='user'){
-		$tag_id = $this->tag_number($tag);
-		if ($how_search=='views'){
+	function get_search_results($tag, $hsearch, $what, $inTags){
+		if ($hsearch==='views'){
 			$this->get_resources_array($what);
 		} else {
 			$this->get_resources_rankings($what);
 		}
-
 		$temp_array = array();
-		foreach ($this->res_array as $value) {
-			$tags_array = explode(',', $value['tags']);
-			if (in_array($tag_id, $tags_array)){
-				array_push($temp_array, $value);
+		if ($inTags==="true"){
+			$tag_id = $this->tag_number($tag);
+			foreach ($this->res_array as $value) {
+				$tags_array = explode(',', $value['tags']);
+				if (in_array($tag_id, $tags_array)){
+					array_push($temp_array, $value);
+				}
 			}
+		} else {
+			$str = preg_replace('/[^a-z]/i',' ', $tag);
+			// $search_array = explode(' ', $str);
+			$str = strtolower($str);
+			$numid_array = array();
+			// foreach ($search_array as $value) {
+				foreach ($this->res_array as $value) {
+					$title = strtolower($value['title']);
+					$description = strtolower($value['description']);
+					if (strpos($title, $str) !== false
+					|| strpos($description, $str)!== false){
+							array_push($numid_array, $value['numid']);
+							array_push($temp_array, $value);
+					}
+				}
+			// }
 		}
 		return $temp_array;
 	}
