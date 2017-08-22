@@ -5,19 +5,20 @@ angular.module('ResourceApp')
 .controller('AdminController',AdminController)
 
 
-AdminController.$inject=['AdminService', 'netids', 'whoDetails', 'pending'];
-function AdminController(AdminService, netids, whoDetails, pending) {
+AdminController.$inject=['AdminService', 'netids', 'whoDetails', 'pending', 'dates'];
+function AdminController(AdminService, netids, whoDetails, pending, dates) {
   var adctrl=this;
 
   adctrl.pendingLength = pending.data.length;
   adctrl.who = whoDetails.data;
   adctrl.which_module = "add";
   adctrl.pending = pending.data;
+  adctrl.dates = dates.data;
 
   adctrl.changeModule = function(which_mod){
     switch (which_mod) {
-      case 'useradmin':
-
+      case 'nudge':
+      
         break;
       case 'pending':
       AdminService.getPending()

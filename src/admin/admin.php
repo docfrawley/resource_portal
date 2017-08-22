@@ -45,6 +45,10 @@
       <user-admin ng-if="adctrl.which_module=='useradmin'"
         title = "USER ADMINISTRATION"
       ></user-admin>
+      <nudge-admin ng-if="adctrl.which_module=='nudge'"
+        title = "NUDGE ADMINISTRATION"
+        dates = 'adctrl.dates'
+      ></nudge-admin>
   </div>
 
 

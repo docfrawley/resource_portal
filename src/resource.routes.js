@@ -46,6 +46,9 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
       }],
       netids: ['AdminService',function (AdminService) {
         return AdminService.GetNetids();
+      }],
+      dates: ['AdminService',function (AdminService) {
+        return AdminService.GetDates();
       }]
     }
   });

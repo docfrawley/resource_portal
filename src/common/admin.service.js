@@ -21,6 +21,29 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.getFpageResource = function(numid){
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task:   'getFpageResource',
+        numid: numid
+      }
+    });
+    return response;
+  };
+
+  service.GetDates = function() {
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task:   'getDates'
+      }
+    });
+    return response;
+  };
+
   service.getPending = function(){
     var response = $http({
       method: "GET",
@@ -173,6 +196,20 @@ function AdminService($http, ApiPath, Upload) {
         netid:    user.netid,
         level:    user.level,
         webhook:  user.webhook
+      }
+    });
+    return response;
+  };
+
+  service.aOreFPResource = function(whatDo, whichnumid, whichview, edate){
+    var response = $http({
+      method: "POST",
+      url: (ApiPath +"aorefresource.php"),
+      data: {
+        whatDo:     whatDo,
+        numid:      whichnumid,
+        whichview:  whichview,
+        edate:      edate
       }
     });
     return response;

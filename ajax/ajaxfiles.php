@@ -12,6 +12,13 @@ switch ($task) {
   case 'getTitles':
     $temp_array = $admin->get_titles();
     break;
+  case 'getFpageResource':
+    $numid = $database->escape_value($_GET['numid']);
+    $temp_array = $fpage->get_FpageResource($numid);
+    break;
+case 'getDates':
+    $temp_array = $fpage->get_dates();
+    break;
   case 'getPending':
     $temp_array = $admin->get_pending();
     break;

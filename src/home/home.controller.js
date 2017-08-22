@@ -51,6 +51,7 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
 
   hctrl.showsearch=false;
   hctrl.fpvids = fplist.data;
+  console.log(hctrl.fpvids);
   hctrl.headerArray = prompts.data;
   hctrl.index = 0;
   hctrl.myHeader = hctrl.headerArray[hctrl.index];
