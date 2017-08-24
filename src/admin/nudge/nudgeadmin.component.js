@@ -15,36 +15,59 @@ nudgeController.$inject = ['AdminService', '$scope', '$element']
 function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
   var $ctrl = this;
 
-  $ctrl.editing = false;
   $ctrl.madeAction = false;
+  $ctrl.madeAddition = false;
   $ctrl.whatDoing = '';
   $ctrl.simulateQuery = false;
   $ctrl.isDisabled    = false;
   $ctrl.noCache = false;
+  $ctrl.madeEdit = false;
+  $ctrl.editprompts = false;
 
   $ctrl.$onInit = function () {
     $ctrl.eventSources = $ctrl.dates;
-    console.log($ctrl.eventSources);
   };
 
   $ctrl.alertEventOnClick = function(date, jsEvent, view){
+    $ctrl.madeAction = false;
+    $ctrl.madeAddition = false;
+    $ctrl.whatDoing = '';
     $ctrl.whichtitle = date.title;
     $ctrl.whichnumid = date.numid;
-    $ctrl.editing = true;
-    AdminService.getFpageResource($ctrl.whichnumid)
-    .then(function(response){
-      $ctrl.eresource = response.data;
-    })
-    .catch(function(error){
-      console.log(error);
-    });
+    if (date.color !='purple'){
+      $ctrl.editing = true;
+      AdminService.getFpageResource($ctrl.whichnumid)
+      .then(function(response){
+        $ctrl.eresource = response.data;
+      })
+      .catch(function(error){
+        console.log(error);
+      });
+    } else {
+      $ctrl.editprompts = true;
+      AdminService.getFpagePrompt(date.numid)
+      .then(function(response){
+        $ctrl.eresource = response.data;
+        console.log('here: ', $ctrl.eresource);
+        $ctrl.promptsLength = $ctrl.eresource.prompts.length;
+        $ctrl.keys = $ctrl.eresource.prompts.map(function(v, i) {
+          return i + 1;
+          });
+        console.log($ctrl.keys);
+      })
+      .catch(function(error){
+        console.log(error);
+      });
+    }
   };
 
   $ctrl.whatDo = function(what){
+    $ctrl.madeAction = false;
+    $ctrl.madeAddition = false;
     if (what=='cancel'){
       $ctrl.editing = false;
+      $ctrl.editprompts = false;
     } else if (what=='add') {
-      $ctrl.madeAction = false;
       $ctrl.whatDoing = what;
       $ctrl.search = "";
       $ctrl.searchText = "";
@@ -66,7 +89,14 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
       $ctrl.edate = new Date($ctrl.eresource.year, $ctrl.eresource.month-1, $ctrl.eresource.day, 0, 0, 0);
       $ctrl.wview = $ctrl.eresource.wview;
       $ctrl.whatDoing = what;
+      $ctrl.editprompts = false;
     }
+  };
+
+  $ctrl.addPrompt = function() {
+    $ctrl.promptsLength ++;
+    $ctrl.eresource.prompts.push('');
+    $ctrl.keys.push($ctrl.promptsLength);
   };
 
   $ctrl.querySearch = function (query) {
@@ -84,24 +114,47 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
   };
 
   $ctrl.deleteFPResource = function (){
-      console.log($ctrl.whichnumid);
-      $ctrl.madeAction = true;
+    AdminService.aOreFPResource('delete', $ctrl.whichnumid, ' ', 0)
+    .then(function(response){
+      AdminService.GetDates()
+        .then(function(response){
+          $ctrl.eventSources.splice(0, $ctrl.eventSources.length)
+          $ctrl.events = response.data;
+          for(var i = 0; i < $ctrl.events.length; ++i) {
+            $ctrl.eventSources.push($ctrl.events[i]);
+          }
+          $ctrl.madeAction = true;
+          $ctrl.editing = false;
+        })
+        .catch(function(error) {
+        });
+    })
+    .catch(function(error) {
+    });
   };
 
   $ctrl.editFPResource = function (){
     if ($ctrl.edate==undefined){
       $ctrl.edate = "0";
     }
-    var date = new Date($ctrl.edate);
-    console.log("date: ", date.getDate());
-    AdminService.aOreFPResource('edit', $ctrl.whichnumid, $ctrl.whichview, date)
+    var date = new Date($ctrl.edate).valueOf()/1000;
+    console.log('edit', $ctrl.whichnumid, $ctrl.wview, date);
+    AdminService.aOreFPResource('edit', $ctrl.whichnumid, $ctrl.wview, date)
     .then(function(response){
-      console.log(response.data);
-      $ctrl.madeAction = true;
+      AdminService.GetDates()
+        .then(function(response){
+          $ctrl.eventSources.splice(0, $ctrl.eventSources.length)
+          $ctrl.events = response.data;
+          for(var i = 0; i < $ctrl.events.length; ++i) {
+            $ctrl.eventSources.push($ctrl.events[i]);
+          }
+          $ctrl.madeAction = true;
+        })
+        .catch(function(error) {
+        });
     })
     .catch(function(error) {
     });
-    $ctrl.madeAction = true;
   };
 
   $ctrl.addFPResource = function (){
@@ -109,7 +162,6 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
       $ctrl.adate = "0";
     }
     var date = new Date($ctrl.adate).valueOf()/1000;
-    console.log('date: ', date);
     AdminService.aOreFPResource('add', $ctrl.searchText, $ctrl.wview, date)
     .then(function(response){
       AdminService.GetDates()
@@ -119,15 +171,14 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
           for(var i = 0; i < $ctrl.events.length; ++i) {
             $ctrl.eventSources.push($ctrl.events[i]);
           }
-          console.log($ctrl.eventSources);
+          $ctrl.madeAddition = true;
+          $ctrl.madeAction = true;
         })
         .catch(function(error) {
         });
-        $ctrl.madeAction = true;
     })
     .catch(function(error) {
     });
-    $ctrl.madeAction = true;
   };
 
   /* config object */

@@ -152,6 +152,18 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.getFpagePrompt = function(numid){
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task: 'getFpagePrompt',
+        numid:  numid
+      }
+    });
+    return response;
+  };
+
   service.aOreResource =function(numid, pdfFile, what, tagstring, type, title, description, link){
     var response = $http({
       method: "POST",

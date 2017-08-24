@@ -17,12 +17,6 @@ class fpAdmin {
 			array_push($this->fp_array, $value);
 		}
 
-		$sql="SELECT * FROM search_announcements";
-		$result_set = $database->query($sql);
-    while ($value = $database->fetch_array($result_set)) {
-			array_push($this->prompts, $value);
-		}
-
 		$sql="SELECT * FROM tags ORDER BY tag";
 		$result_set = $database->query($sql);
     while ($value = $database->fetch_array($result_set)) {
@@ -97,12 +91,29 @@ class fpAdmin {
   }
 
 	function get_prompts(){
-		$returnArray = array();
-		foreach ($this->prompts as $value) {
-			if ($value['show_it']){
-				array_push($returnArray, $value['what_say']);
-			}
+		global $database;
+		$sql="SELECT * FROM announcements ORDER BY sdate DESC";
+		$result_set = $database->query($sql);
+    while ($value = $database->fetch_array($result_set)) {
+			array_push($this->prompts, $value['statements']);
 		}
+		$announcements = $this->prompts[0];
+		$returnArray = explode("|", $announcements);
+		return $returnArray;
+	}
+
+	function get_FpagePrompt($numid){
+		global $database;
+		$sql="SELECT * FROM announcements WHERE id ='".$numid."'";
+		$result_set = $database->query($sql);
+		$value = $database->fetch_array($result_set);
+		$promptsArray = explode("|", $value['statements']);
+		$start = date('m/d/Y', $value['sdate']);
+		$returnArray = array(
+			'prompts' => $promptsArray,
+			'start'		=> $start,
+			'id'			=> $numid
+		);
 		return $returnArray;
 	}
 
@@ -121,7 +132,8 @@ class fpAdmin {
 			$date_array = array(
 				'title' => $event->get_title(),
 				'start' => $calendar,
-				'numid' => $value['numid']
+				'numid' => $value['numid'],
+				'color'	=> $color
 			);
 			array_push($dates_array, $date_array);
 		}
@@ -133,26 +145,51 @@ class fpAdmin {
 	}
 
 	function get_dates(){
+		global $database;
 		$inspiration = $this->get_dateset('inspiration', 'red');
 		$advice = $this->get_dateset('advice', 'blue');
 		$opportunities = $this->get_dateset('opportunities', 'green');
+		$sql="SELECT * FROM announcements ORDER BY sdate";
+		$result_set = $database->query($sql);
+		$dates_array = array();
+    while ($value = $database->fetch_array($result_set)) {
+			$statements = explode("|", $value['statements']);
+			$calendar = date('Y-m-d', $value['sdate']);
+			$date_array = array(
+				'title' => $statements,
+				'start' => $calendar,
+				'numid' => $value['id'],
+				'color'	=> 'purple'
+			);
+			array_push($dates_array, $date_array);
+		}
+		$promptsArray = array(
+			'events' 		=> $dates_array,
+			'color'			=> 'purple'
+		);
 		$returningArray = array();
 		array_push($returningArray, $inspiration);
 		array_push($returningArray, $advice);
 		array_push($returningArray, $opportunities);
+		array_push($returningArray, $promptsArray);
 		return $returningArray;
 	}
 
-	function editResource($edate){
-		// $themonth = intval($month);
-		// $theday = intval($day);
-		// $theyear = intval($year);
-		// $date = mktime(0,0,0,$themonth,$theday,$theyear);
-		$whatbecomes = $date->format('u');
-		$thearray = array(
-			'becomes' => $day
-		);
-		return $year;
+	function editResource($edate, $wview, $numid){
+		global $database;
+		$sql = "UPDATE fpage SET ";
+		$sql .= "wview='". $wview ."', ";
+		$sql .= "start_show='". $edate ."' ";
+		$sql .= "WHERE numid='". $numid. "' ";
+		$database->query($sql);
+	}
+
+	function deleteResource($numid){
+		global $database;
+		$sql = "DELETE FROM fpage ";
+	  	$sql .= "WHERE numid=". $numid;
+	  	$sql .= " LIMIT 1";
+	 	$database->query($sql);
 	}
 
 	function addResource($adate, $wview, $title){
@@ -170,13 +207,6 @@ class fpAdmin {
       $sql .= $wview  ."', '";
       $sql .= $tdate ."')";
 		$database->query($sql);
-
-		$tarray = array(
-			'numid' => $numid,
-			'wview' => $wview,
-			'date' => $tdate
-		);
-		return $tarray;
 	}
 
 }

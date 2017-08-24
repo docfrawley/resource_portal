@@ -12,19 +12,21 @@ $fadmin = new fpAdmin();
 
 switch ($whatdo) {
   case 'edit':
+    $fadmin->editResource($date, $whichview, $numid);
     break;
   case 'add':
-    $the_result = $fadmin->addResource($date, $whichview, $numid);
+    $fadmin->addResource($date, $whichview, $numid);
+    break;
+  case 'delete':
+    $fadmin->deleteResource($numid);
     break;
   default:
     # code...
     break;
 }
 
-
-
 $data = array(
-  'success'=>$the_result
+  'success'=>true
 );
 echo json_encode($data);
 

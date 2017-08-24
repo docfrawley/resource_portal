@@ -16,7 +16,11 @@ switch ($task) {
     $numid = $database->escape_value($_GET['numid']);
     $temp_array = $fpage->get_FpageResource($numid);
     break;
-case 'getDates':
+  case 'getFpagePrompt':
+    $numid = $database->escape_value($_GET['numid']);
+    $temp_array = $fpage->get_FpagePrompt($numid);
+    break;
+  case 'getDates':
     $temp_array = $fpage->get_dates();
     break;
   case 'getPending':
