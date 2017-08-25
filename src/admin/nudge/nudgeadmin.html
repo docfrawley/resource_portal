@@ -82,26 +82,40 @@
       <div class='col-sm-12'>
         <form>
           <div class='row'>
-            <div class='col-xs-2'>
+            <div class='col-xs-1'>
               <h5>ORDER</h5>
             </div>
-            <div class='col-xs-10'>
+            <div class='col-xs-11 text-left'>
               <h5>CHANGE PROMPT WORDING</h5>
             </div>
           </div>
-          <div class='row' ng-repeat="item in $ctrl.eresource.prompts track by $index">
-            <div class="form-group col-xs-2">
-              <select class="form-control" id="exampleSelect1" >
-                <option value="{{$index+1}}" selected>{{$index+1}}</option>
-                <option ng-repeat='key in $ctrl.keys' value="{{key}}">{{key}}</option>
-              </select>
+          <div class='row' ng-repeat="prompt in $ctrl.prompts track by $index">
+            <div class="col-xs-1 text-right" >
+              <table>
+                <tr>
+                  <td>
+                    <button ng-if="$index+1 < $ctrl.promptsLength"
+                            class='btn btn-xs btn-success'
+                            ng-mouseup="$ctrl.changeOrder($index, 1)">
+                      <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                  </td>
+                  <td>
+                    <button ng-if="$index > 0"
+                            class='btn btn-xs btn-success'
+                            ng-click="$ctrl.changeOrder($index, -1)">
+                      <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                  </td>
+                </tr>
+              </table>
             </div>
-            <div class="col-xs-9">
-              <input class="form-control" type="text" value="{{item}}" id="example-text-input">
+            <div class="col-xs-10 text-left" ng-model="prompt.prompt">
+              <input class="form-control" type="text" ng-model="prompt.prompt"
+              placeholder="{{prompt.prompt}}"
+              ng-blur="$ctrl.makePromptUpdate($index, prompt.prompt)">
             </div>
             <div class="col-xs-1 text-left">
               <button class='btn btn-xs btn-danger'
-                          ng-click="$ctrl.whatDo('deleteprompts')">
+                          ng-click="$ctrl.removePrompt($index)">
                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
               </button>
             </div>
@@ -115,9 +129,9 @@
       </div>
       <div class='col-sm-12'>
         <button class='btn btn-md btn-primary'
-                    ng-click="$ctrl.addPrompt()">UPDATE</button>
+                    ng-click="$ctrl.editPrompts()">UPDATE</button>
         <button class='btn btn-md btn-success'
-                    ng-click="$ctrl.addPrompt()">CANCEL</button>
+                    ng-click="$ctrl.whatDo('cancel')">CANCEL</button>
       </div>
     </div>
 

@@ -48,12 +48,10 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
       AdminService.getFpagePrompt(date.numid)
       .then(function(response){
         $ctrl.eresource = response.data;
-        console.log('here: ', $ctrl.eresource);
         $ctrl.promptsLength = $ctrl.eresource.prompts.length;
-        $ctrl.keys = $ctrl.eresource.prompts.map(function(v, i) {
-          return i + 1;
-          });
-        console.log($ctrl.keys);
+        $ctrl.prompts = $ctrl.eresource.prompts.map(function(v) {
+          return {prompt:v};
+        });
       })
       .catch(function(error){
         console.log(error);
@@ -67,6 +65,7 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
     if (what=='cancel'){
       $ctrl.editing = false;
       $ctrl.editprompts = false;
+      $ctrl.whatDoing=what;
     } else if (what=='add') {
       $ctrl.whatDoing = what;
       $ctrl.search = "";
@@ -95,8 +94,28 @@ function nudgeController(AdminService, $scope, $element, uiCalendarConfig) {
 
   $ctrl.addPrompt = function() {
     $ctrl.promptsLength ++;
-    $ctrl.eresource.prompts.push('');
-    $ctrl.keys.push($ctrl.promptsLength);
+    $ctrl.prompts.push({
+      prompt: ''});
+  };
+
+  $ctrl.editPrompts = function() {
+    console.log($ctrl.prompts);
+  };
+
+  $ctrl.removePrompt = function(index) {
+    $ctrl.prompts.splice(index, 1);
+    $ctrl.promptsLength --;
+  };
+
+  $ctrl.makePromptUpdate = function(index, prompt){
+    $ctrl.prompts[index].prompt = prompt;
+    console.log("update: ", $ctrl.prompts);
+  };
+
+  $ctrl.changeOrder = function(index, whichway) {
+    var to = index+whichway;
+    $ctrl.prompts.splice(to,0,$ctrl.prompts.splice(index,1)[0]);
+    console.log("result: ", $ctrl.prompts);
   };
 
   $ctrl.querySearch = function (query) {
