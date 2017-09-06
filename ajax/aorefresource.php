@@ -11,6 +11,12 @@ $date = $database->escape_value($params['edate']);
 $fadmin = new fpAdmin();
 
 switch ($whatdo) {
+  case 'addP':
+    $fadmin->addPrompts($date, $whichview);
+    break;
+  case 'editP':
+    $fadmin->editPrompts($date, $whichview, $numid);
+    break;
   case 'edit':
     $fadmin->editResource($date, $whichview, $numid);
     break;

@@ -152,6 +152,18 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
+  service.deleteFpagePrompts = function(id) {
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task: 'deleteprompt',
+        id:  id
+      }
+    });
+    return response;
+  };
+
   service.getFpagePrompt = function(numid){
     var response = $http({
       method: "GET",
@@ -222,6 +234,34 @@ function AdminService($http, ApiPath, Upload) {
         numid:      whichnumid,
         whichview:  whichview,
         edate:      edate
+      }
+    });
+    return response;
+  };
+
+  service.editFpagePrompt = function(prompt_string, date, id){
+    var response = $http({
+      method: "POST",
+      url: (ApiPath +"aorefresource.php"),
+      data: {
+        whatDo:     'editP',
+        numid:      id,
+        whichview:  prompt_string,
+        edate:      date
+      }
+    });
+    return response;
+  };
+
+  service.addFpagePrompt = function(date, prompt_string){
+    var response = $http({
+      method: "POST",
+      url: (ApiPath +"aorefresource.php"),
+      data: {
+        whatDo:     'addP',
+        numid:      0,
+        whichview:  prompt_string,
+        edate:      date
       }
     });
     return response;

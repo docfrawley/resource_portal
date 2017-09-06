@@ -9,6 +9,13 @@ $admin = new resourceAdmin();
 $users = new userAdmin();
 
 switch ($task) {
+  case 'deleteprompt':
+    $id = $database->escape_value($_GET['id']);
+    $fpage->deleteprompt($id);
+    $temp_array = array(
+      'success'=>$id
+    );
+    break;
   case 'getTitles':
     $temp_array = $admin->get_titles();
     break;

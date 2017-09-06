@@ -109,7 +109,13 @@ class fpAdmin {
 		$value = $database->fetch_array($result_set);
 		$promptsArray = explode("|", $value['statements']);
 		$start = date('m/d/Y', $value['sdate']);
-		$returnArray = array(
+		$year = date('Y', $value['sdate']);
+		$month = date('m', $value['sdate']);
+		$day = date('d', $value['sdate']);
+		$returnArray = array (
+			'year' => $year,
+			'month' => $month,
+			'day'		=> $day,
 			'prompts' => $promptsArray,
 			'start'		=> $start,
 			'id'			=> $numid
@@ -184,6 +190,15 @@ class fpAdmin {
 		$database->query($sql);
 	}
 
+	function editPrompts($sdate, $statements, $id){
+		global $database;
+		$sql = "UPDATE announcements SET ";
+		$sql .= "statements='". $statements ."', ";
+		$sql .= "sdate='". $sdate ."' ";
+		$sql .= "WHERE id='". $id. "' ";
+		$database->query($sql);
+	}
+
 	function deleteResource($numid){
 		global $database;
 		$sql = "DELETE FROM fpage ";
@@ -207,6 +222,24 @@ class fpAdmin {
       $sql .= $wview  ."', '";
       $sql .= $tdate ."')";
 		$database->query($sql);
+	}
+
+	function addPrompts($date, $statements){
+		global $database;
+		$sql = "INSERT INTO announcements (";
+	  	$sql .= "statements, sdate";
+	  	$sql .= ") VALUES ('";
+      $sql .= $statements  ."', '";
+      $sql .= $date ."')";
+		$database->query($sql);
+	}
+
+	function deleteprompt($id){
+		global $database;
+		$sql = "DELETE FROM announcements ";
+	  	$sql .= "WHERE id=". $id;
+	  	$sql .= " LIMIT 1";
+	 	$database->query($sql);
 	}
 
 }

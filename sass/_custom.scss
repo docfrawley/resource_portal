@@ -1,4 +1,7 @@
 .navbar{
+  background-color: #666666;
+  border-radius: 0;
+  border-bottom: medium solid #86cdcd;
   .fa{
     font-size: 18px;
   }
@@ -10,4 +13,28 @@
 
 .toff {
   color: grey;
+}
+
+.main-body-bg{
+  background-color: #eeede5;
+}
+
+.main-button{
+  background-color: #f68931;
+}
+
+.search_button{
+  background-color: #86cdcd;
+  border-radius:0;
+  border:0;
+  font-weight: bold;
+}
+
+.search_button:hover{
+  background-color: darken(#86cdcd,15%);
+}
+
+.prompts{
+  font-size: 1.5em;
+  font-weight: bold;
 }

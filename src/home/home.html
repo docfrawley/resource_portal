@@ -27,7 +27,7 @@
       </div>
       <div class="col-sm-12">
         <button type="button" class="btn btn-success btn-lg button_home">
-          <i class="fa fa-arrows-alt"></i>&nbsp;NEW OPPORTUNITIES</button>
+          <i class="fa fa-arrows-alt"></i>&nbsp;OPPORTUNITIES</button>
       </div>
       <div class="col-sm-12">
         <button type="button" class="btn btn-primary btn-lg button_home">
@@ -53,7 +53,7 @@
             <div>ENTER THE WORD THAT BEST DESCRIBES WHAT YOU'RE LOOKING FOR</div>
             <div>Even if we don't have a matching tag, we'll take a look to
               see what we have for you.</div><br />
-            <div>{{hctrl.myHeader}}</div><br />
+            <div class="prompts">{{hctrl.myHeader}}</div><br />
             <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
               <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
                 We don't have anything that matches that request. Please try again.</div>
@@ -77,9 +77,9 @@
                 </md-not-found>
               </md-autocomplete>
               <br/>
-              <button type="submit" class="btn btn-primary"
+              <button type="submit" class="btn btn-primary search_button"
                       ng-click = "hctrl.goSearch('rank')">Search By Ranking</button>
-              <button type="submit" class="btn btn-primary"
+              <button type="submit" class="btn btn-primary search_button"
                       ng-click = "hctrl.goSearch('views')">Search By # Views</button>
               </form>
           </md-content>
