@@ -26,15 +26,21 @@
           <i class="fa fa-search"></i>&nbsp;NEW SEARCH</button>
       </div>
       <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home">
+        <button type="button" class="btn btn-success btn-lg button_home"
+        data-toggle="popover" title="Opportunities"
+        data-content="See some of the new positions available in Handshake."
+        data-trigger="hover">
           <i class="fa fa-arrows-alt"></i>&nbsp;OPPORTUNITIES</button>
       </div>
-      <div class="col-sm-12">
+      <!-- <div class="col-sm-12">
         <button type="button" class="btn btn-primary btn-lg button_home">
           <i class="fa fa-street-view"></i>&nbsp;WHERE DO I START?</button>
-      </div>
+      </div> -->
       <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home">
+        <button type="button" class="btn btn-success btn-lg button_home"
+        data-toggle="popover" title="Latest Additions"
+        data-content="See the 10 most recently added resources to the library."
+        data-trigger="hover" ng-click="hctrl.latestAdditions()">
           <i class="fa fa-upload"></i>&nbsp;LATEST ADDITIONS</button>
       </div>
     </div>
@@ -44,8 +50,10 @@
     <div class="panel panel-default" >
       <div class="panel-heading">
         <h3 class="panel-title text-center" ng-if="!hctrl.showsearch">SEARCH RESOURCES</h3>
-        <h3 class="panel-title text-center" ng-if="hctrl.showsearch">
+        <h3 class="panel-title text-center" ng-if="hctrl.showsearch && hctrl.search!='Latest Additions'">
             {{hctrl.results.length}} RESULTS FOR '{{hctrl.search.toUpperCase()}}'.</h3>
+        <h3 class="panel-title text-center"
+            ng-if="hctrl.search=='Latest Additions' && hctrl.showsearch">LATEST ADDITIONS</h3>
       </div>
 
         <div class="panel-body" ng-if="!hctrl.showsearch" layout="column" ng-cloak>
@@ -94,6 +102,14 @@
       </div>
   </div>
 
-
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover({
+    container: "body",
+    animation: false,
+    placement: "top"
+  })
+})
+</script>
 
 </div>

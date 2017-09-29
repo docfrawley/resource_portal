@@ -1,10 +1,41 @@
 .navbar{
+    .title-top{
+      margin-top: 10px;
+      font-size: 2em;
+    };
+  min-height: 11%;
   background-color: #666666;
   border-radius: 0;
   border-bottom: medium solid #86cdcd;
+  border-left:0px;
+  border-right: 0px;
   .fa{
     font-size: 18px;
   }
+}
+
+.icon-bottom{
+  color: grey;
+  font-size: 1.75em;
+  padding-right: 10px;
+}
+
+.icon-bottom:hover{
+  color: darken(grey,15%);
+}
+
+.bottom_princeton{
+  font-size: .9em;
+  float: right;
+}
+
+#disclaimer{
+  color:orange;
+  text-decoration: none;
+}
+
+#disclaimer:hover{
+  color: darken(orange,15%);
 }
 
 .tpress {
@@ -15,12 +46,39 @@
   color: grey;
 }
 
-.main-body-bg{
+.top-nav-links {
+  margin-top: 15px;
+  background-color: #666666;
+}
+
+html,body {
+  min-height: 100%;
   background-color: #eeede5;
+}
+.main-body-bg{
+  min-height: 100%;
+  background-color: #eeede5;
+}
+
+.bottom_layout{
+  min-height: 50px;
+  background-color: white;
+  border-top: 3px solid #86cdcd;
+  padding: 10px;
+  font-size: .9em;
 }
 
 .main-button{
   background-color: #f68931;
+}
+
+.location_link{
+  text-decoration: none;
+  color: darken(#86cdcd,15%);
+}
+
+.location_link:hover{
+  color: darken(#86cdcd,30%);
 }
 
 .search_button{
@@ -37,4 +95,36 @@
 .prompts{
   font-size: 1.5em;
   font-weight: bold;
+}
+
+.image-container{
+  background-repeat: no-repeat;
+  background-image: url('../img/logo.png');
+  height:60px;
+  padding:10px;
+}
+
+@media (max-width: 767px) {
+  .image-container{
+    margin-left: 20px;
+  };
+  .bottom_princeton{
+    float:left;
+    margin-top:10px;
+    padding-top: 5px;
+  }
+}
+
+@media (max-width: 617px) {
+  .image-container{
+    background-repeat: no-repeat;
+    background-image: url('../img/logo_small.png');
+    height:40px;
+  };
+  .navbar{
+      .title-top{
+        margin-top: 10px;
+        font-size: 1.25em;
+      };
+  }
 }

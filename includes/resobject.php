@@ -1,4 +1,4 @@
-<? include_once("initialize.php");
+<?php include_once("initialize.php");
 
 class resObject {
 
@@ -15,12 +15,14 @@ class resObject {
 	private $doshow;
 
 
-	function __construct($numid) {
-    global $database;
-    $sql="SELECT * FROM resources WHERE numid='".$numid."'";
+	function __construct($nid) {
+		global $database;
+		$id = intval($nid);
+		// $sql="SELECT * FROM `resources` WHERE `numid`='".$nid"'";
+		$sql="SELECT * FROM resources WHERE numid='".$nid."'";
 		$result_set = $database->query($sql);
-    $value = $database->fetch_array($result_set);
-		$this->numid = $numid;
+		$value = $database->fetch_array($result_set);
+		$this->numid = $id;
 		$this->title = $value['title'];
     $this->description = $value['description'];
     $this->who = $value['who'];
@@ -42,7 +44,7 @@ class resObject {
   }
 
   function get_who(){
-    return $this->who;
+    return $this->numid;
   }
 
   function get_wupload(){

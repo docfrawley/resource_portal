@@ -1,4 +1,4 @@
-<? include_once("initialize.php");
+<?php include_once("initialize.php");
 
 class fpAdmin {
 
@@ -11,7 +11,7 @@ class fpAdmin {
     $this->fp_array = array();
 		$this->prompts = array();
 		$this->tags = array();
-    $sql="SELECT * FROM fpage";
+    $sql="SELECT * FROM fpage ORDER BY start_show DESC";
 		$result_set = $database->query($sql);
     while ($value = $database->fetch_array($result_set)) {
 			array_push($this->fp_array, $value);
@@ -31,17 +31,17 @@ class fpAdmin {
 	}
 
   function get_fpresource($which_one){
-    global $database;
-    $today = microtime(true);
-		$tempa = array();
-    $sql="SELECT * FROM fpage WHERE wview='".$which_one."'
-					AND start_show<='".$today."' ORDER BY start_show DESC";
-    $result_set = $database->query($sql);
-		while ($info = $database->fetch_array($result_set)) {
-			array_push($tempa, $info);
-		};
-		$value = $tempa[0];
-    $resource = new resObject($value['numid']);
+		global $database;
+		$date = new DateTime();
+		$today = $date->getTimestamp();
+		foreach ($this->fp_array as $info){
+			if ($info['start_show'] <= $today && $info['wview']=== $which_one){
+				$value = $info;
+				break;
+			}
+		}
+		$numid = (int) $value['numid'];
+		$resource = new resObject($numid);
     $title = $resource->get_title();
     $description = $resource->get_description();
     $rlink = $resource->get_rlink();
@@ -49,13 +49,12 @@ class fpAdmin {
 		$thumbsup = $resource->get_thumbsup();
 		$thumbsdown = $resource->get_thumbsdown();
     $temp_array = array(
-      'title'       => $which_one,
-      'description' => $description,
+			'title'       => $title,
       'rlink'       => $rlink,
 			'numviews'		=> $numviews,
 			'thumbsup'		=> $thumbsup,
 			'thumbsdown'	=> $thumbsdown,
-			'numid'				=> $value['numid']
+			'numid'				=> $numid
     );
 
     return $temp_array;
@@ -92,7 +91,9 @@ class fpAdmin {
 
 	function get_prompts(){
 		global $database;
-		$sql="SELECT * FROM announcements ORDER BY sdate DESC";
+		$date = new DateTime();
+    $today = $date->getTimestamp();
+		$sql="SELECT * FROM announcements WHERE `sdate` <= ".$today." ORDER BY sdate DESC";
 		$result_set = $database->query($sql);
     while ($value = $database->fetch_array($result_set)) {
 			array_push($this->prompts, $value['statements']);

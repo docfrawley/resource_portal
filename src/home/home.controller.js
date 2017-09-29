@@ -51,7 +51,7 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
 
   hctrl.showsearch=false;
   hctrl.fpvids = fplist.data;
-  console.log(hctrl.fpvids);
+  console.log("I am here with the list: ",hctrl.fpvids);
   hctrl.headerArray = prompts.data;
   console.log(hctrl.headerArray);
   hctrl.index = 0;
@@ -68,13 +68,15 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
 
   hctrl.search = "";
   hctrl.notag = false;
+
   hctrl.newSearch = function(){
     hctrl.showsearch=false;
     hctrl.search = "";
     hctrl.notag = false;
     hctrl.searchText = "";
     hctrl.selectedItem = "";
-  }
+  };
+
   hctrl.goSearch = function(hsearch){
     hctrl.search = hctrl.searchText;
     var inTags = hctrl.states_array.indexOf(hctrl.search)!=-1;
@@ -89,9 +91,21 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
         }
       })
       .catch(function (error) {
-        console.lsaog(error);;;;;;asdf
+        console.log(error);
       });
   };
+
+  hctrl.latestAdditions =  function(){
+    hctrl.search = "Latest Additions";
+    HomeService.latestAdditions()
+    .then(function (response){
+      hctrl.results = response.data;
+      hctrl.showsearch = true;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
 };
 

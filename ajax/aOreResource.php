@@ -22,7 +22,7 @@ if ($what=='add'){
 
 
 $posta = array (
-  'text' => 'Hey there Mike. This is coming from the resource library. We have integration of the library with Slack!'
+  'text' => "Hey Super Admins. A new resource was added to the pending queue entitled '{$title}'"
   );
 $post = json_encode($posta);
 

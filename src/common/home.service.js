@@ -21,6 +21,17 @@ function HomeService($http, ApiPath) {
     return response;
   };
 
+  service.latestAdditions = function() {
+    var response = $http({
+      method: "GET",
+      url: (ApiPath +"ajaxfiles.php"),
+      params: {
+        task:   'latestAdditions'
+      }
+    });
+    return response;
+  };
+
   service.getPrompts = function(){
     var response = $http({
       method: "GET",

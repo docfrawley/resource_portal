@@ -90,6 +90,21 @@ class resourceAdmin {
 		return $returnArray;
 	}
 
+	function latestAdditions(){
+		global $database;
+		$sql="SELECT * FROM resources WHERE doshow ='s' ORDER BY wupload DESC";
+		$result_set = $database->query($sql);
+		$returnArray = array();
+		$rArray = array();
+    while ($value = $database->fetch_array($result_set)) {
+			array_push($rArray, $value);
+		}
+		for ($i=0; $i <11 ; $i++) {
+			array_push($returnArray, $rArray[$i]);
+		}
+		return $returnArray;
+	}
+
 	function get_resources_array($what='a'){
 		global $database;
 		$this->res_array = array();

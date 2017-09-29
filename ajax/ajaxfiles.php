@@ -9,6 +9,8 @@ $admin = new resourceAdmin();
 $users = new userAdmin();
 
 switch ($task) {
+  case 'latestAdditions':
+    $temp_array = $admin->latestAdditions();
   case 'deleteprompt':
     $id = $database->escape_value($_GET['id']);
     $fpage->deleteprompt($id);
