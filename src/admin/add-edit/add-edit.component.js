@@ -87,6 +87,11 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
     $ctrl.tagsin[index].show = !$ctrl.tagsin[index].show;
   };
 
+  $ctrl.clearSignage = function (){
+    $ctrl.updated = false;
+    $ctrl.added = false;
+  };
+
   $ctrl.nowUpload = function(){
     var tagstring= "";
     for (var i = 0; i < $ctrl.tagsin.length; i++) {
@@ -95,11 +100,9 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
       }
     };
     tagstring = tagstring.slice(0, -1);
-    console.log("tagstring: ", tagstring);
     AdminService.aOreResource($ctrl.numid, $ctrl.pdfFile, $ctrl.what, tagstring,
               $ctrl.type_resource, $ctrl.title, $ctrl.description, $ctrl.rlink)
       .then(function (response){
-        console.log("what I got: ", response);
         if ($ctrl.what=='add'){
           $ctrl.added = true;
           for (var i = 0; i < $ctrl.tagsin.length; i++) {
@@ -110,7 +113,7 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
           $ctrl.type_resource = "Link";
           $ctrl.title = "";
           $ctrl.description = "";
-          $ctrl.link = "";
+          $ctrl.rlink = "";
         } else {
           $ctrl.updated = true;
         }

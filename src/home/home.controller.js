@@ -51,9 +51,7 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
 
   hctrl.showsearch=false;
   hctrl.fpvids = fplist.data;
-  console.log("I am here with the list: ",hctrl.fpvids);
   hctrl.headerArray = prompts.data;
-  console.log(hctrl.headerArray);
   hctrl.index = 0;
   hctrl.myHeader = hctrl.headerArray[hctrl.index];
   hctrl.changeHeader = function(){
@@ -80,14 +78,17 @@ function HomeController(HomeService, fplist, tags, prompts, $interval, $animate,
   hctrl.goSearch = function(hsearch){
     hctrl.search = hctrl.searchText;
     var inTags = hctrl.states_array.indexOf(hctrl.search)!=-1;
-    console.log(hctrl.search, hsearch, 's', inTags);
-    HomeService.searchRequest(hctrl.search, hsearch, 's', inTags)
+    var whereTag = hctrl.states_array.indexOf(hctrl.search);
+    var tag = (inTags) ? hctrl.states[whereTag].id : hctrl.search;
+    HomeService.searchRequest(tag, hsearch, 's', inTags)
       .then(function (response){
         hctrl.results = response.data;
         if (hctrl.results.length>0){
+          console.log("got tag id?",hctrl.results);
           hctrl.showsearch = true;
         } else {
           hctrl.notag = true;
+          console.log("got tag id?", hctrl.results);
         }
       })
       .catch(function (error) {

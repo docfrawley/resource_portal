@@ -105,7 +105,7 @@ class resourceAdmin {
 		return $returnArray;
 	}
 
-	function get_resources_array($what='a'){
+	function get_resources_array($what='s'){
 		global $database;
 		$this->res_array = array();
 		switch ($what) {
@@ -134,7 +134,7 @@ class resourceAdmin {
 		}
 	}
 
-	function get_resources_rankings($what='a'){
+	function get_resources_rankings($what='s'){
 		global $database;
 		$this->res_array = array();
 		switch ($what) {
@@ -167,22 +167,23 @@ class resourceAdmin {
 		$which_tag = strtolower($tag);
 		$sql="SELECT * FROM tags WHERE tag='".$which_tag."'";
 		$result_set = $database->query($sql);
-    $value = $database->fetch_array($result_set);
+    	$value = $database->fetch_array($result_set);
 		return $value['id'];
 	}
 
-	function get_search_results($tag, $hsearch, $what, $inTags){
-		if ($hsearch==='views'){
+	function get_search_results($tag, $hsearch, $what='s', $inTags){
+		if ($hsearch=='views'){
 			$this->get_resources_array($what);
 		} else {
 			$this->get_resources_rankings($what);
 		}
 		$temp_array = array();
-		if ($inTags==="true"){
-			$tag_id = $this->tag_number($tag);
+		$the_tag = (int)$tag;
+		if ($inTags==true){
+			// $tag_id = $this->tag_number($tag);
 			foreach ($this->res_array as $value) {
 				$tags_array = explode(',', $value['tags']);
-				if (in_array($tag_id, $tags_array)){
+				if (in_array($the_tag, $tags_array)){
 					array_push($temp_array, $value);
 				}
 			}
@@ -203,6 +204,7 @@ class resourceAdmin {
 				}
 			// }
 		}
+		
 		return $temp_array;
 	}
 
