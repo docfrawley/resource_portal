@@ -7,7 +7,6 @@ angular.module('ResourceApp')
   controller: pendingController,
   bindings: {
     title:      '@',
-    who:        '<',
     list:       '<',
     updatePendings: '&'
   }
@@ -20,7 +19,6 @@ function pendingController(AdminService, HomeService, $scope, $element, $timeout
 $ctrl.madeAction = false;
 
   $ctrl.$onInit = function () {
-    $ctrl.level = $ctrl.who.level;
     $ctrl.madeAction = false;
   };
 

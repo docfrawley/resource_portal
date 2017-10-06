@@ -5,10 +5,53 @@ angular.module('ResourceApp')
 .controller('HomeController',HomeController)
 
 
-HomeController.$inject=['HomeService', 'fplist', 'tags', 'prompts', '$interval', '$animate', '$log'];
-function HomeController(HomeService, fplist, tags, prompts, $interval, $animate, $q, $log) {
+  HomeController.$inject = ['HomeService', 'fplist', 'tags', 'prompts', 'events', '$interval', '$animate', '$log'];
+  function HomeController(HomeService, fplist, tags, prompts, events, $interval, $animate, $q, $log) {
   var hctrl=this;
+    // hctrl.events = events;
+    // console.log("what", events);
 
+  var jsonObj = events.data.success.channel.item;
+  console.log(jsonObj);
+  hctrl.events = [];
+  for (var i = 0; i < 11; i++) {
+    var event = [];
+    var temp_title = jsonObj[i].title;
+    if (temp_title.indexOf('CANCELLED') === -1) {
+      var where_end_title = temp_title.indexOf('(') - 1;
+      event['title'] = temp_title.slice(0, where_end_title);
+      var temp_des = jsonObj[i].description;
+      var where_start = temp_des.indexOf(':') + 2;
+      var where_end = temp_des.indexOf('EDT') - 1;
+      event['date'] = temp_des.slice(where_start, where_end);
+      event['link'] = jsonObj[i].link;
+      hctrl.events.push(event);
+    }
+  }
+  // hctrl.$onInit = function () {
+  //     HomeService.getEvents()
+  //   .then(function (response) {
+  //     var jsonObj = response.data.success.channel.item;
+  //     hctrl.events = [];
+  //     for (var i=0; i<11; i++){
+  //       var event = [];
+  //       var temp_title = jsonObj[i].title;
+  //       if (temp_title.indexOf('CANCELLED') === -1){
+  //         var where_end_title = temp_title.indexOf('(') -1 ;
+  //         event['title'] = temp_title.slice(0, where_end_title);
+  //         var temp_des = jsonObj[i].description;
+  //         var where_start = temp_des.indexOf(':') + 2;
+  //         var where_end = temp_des.indexOf('EDT') -1;
+  //         event['date'] = temp_des.slice(where_start, where_end);
+  //         event['link'] = jsonObj[i].link;
+  //         hctrl.events.push(event);
+  //       }
+  //     }
+  //     console.log(hctrl.events);
+  //   });
+  // };
+  
+  console.log(hctrl.events);
     hctrl.simulateQuery = false;
     hctrl.isDisabled    = false;
     hctrl.states        = tags.data;

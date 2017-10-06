@@ -100,14 +100,13 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
-  service.getResources = function(searchwhat, numindex, searching){
+  service.getResources = function(searchwhat, searching){
     var response = $http({
       method: "GET",
       url: (ApiPath +"ajaxfiles.php"),
       params: {
         task:       'getEditResources',
-        what:       searchwhat,
-        numindex:   numindex,
+        what: searchwhat,
         searching:  searching
       }
     });
@@ -126,14 +125,13 @@ function AdminService($http, ApiPath, Upload) {
     return response;
   };
 
-  service.doDelete = function(numid, level, status){
+  service.doDelete = function(numid, status){
     var response = $http({
       method: "GET",
       url: (ApiPath +"ajaxfiles.php"),
       params: {
         task: 'deleteresource',
         numid:  numid,
-        level:  level,
         status: status
       }
     });

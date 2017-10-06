@@ -37,9 +37,8 @@ switch ($task) {
     break;
   case 'getEditResources':
     $what = $database->escape_value($_GET['what']);
-    $numindex = $database->escape_value($_GET['numindex']);
     $searching = $database->escape_value($_GET['searching']);
-    $temp_array = $admin->get_edit_resources($what, $numindex, $searching);
+    $temp_array = $admin->get_edit_resources($what, $searching);
     break;
   case 'getUsers':
     $temp_array = $users->get_users();
@@ -79,10 +78,9 @@ switch ($task) {
     break;
   case 'deleteresource':
     $numid = $database->escape_value($_GET['numid']);
-    $level = $database->escape_value($_GET['level']);
     $status = $database->escape_value($_GET['status']);
     $resource = new resObject($numid);
-    $resource->deleteResource($level, $status);
+    $resource->deleteResource($status);
     $what = $resource->get_doshow();
     $temp_array = array(
       'success'=>$what
@@ -96,6 +94,17 @@ switch ($task) {
       'success'=>$numid
     );
     break;
+  case 'getEvents':
+    $ch = curl_init('https://princeton.joinhandshake.com/external_feeds/110/public.rss?token=lcPaHn3_enmsL1FlZRGpJTC8byycRwboBba4QWYCPpqozLQRMJFnaA');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $page = new SimpleXMLElement($response);
+    $temp_array = array(
+      'success'=>$page
+    );
+  break;  
   default:
     # code...
     break;

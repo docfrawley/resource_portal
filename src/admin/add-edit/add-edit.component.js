@@ -7,7 +7,6 @@ angular.module('ResourceApp')
   controller: addEditController,
   bindings: {
     what:     '@',
-    who:      '<',
     resource: '<'
   }
 });
@@ -37,7 +36,6 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
       $ctrl.type_resource   = $ctrl.resource.type_resource;
       $ctrl.howUpload = ($ctrl.type_resource =='PDF Upload');
     }
-    $ctrl.level = $ctrl.who.level;
     HomeService.getTags().then(function (response){
       $ctrl.tags = response.data;
       $ctrl.tagsin = [];

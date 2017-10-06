@@ -1,5 +1,5 @@
 <?php require_once("../includes/initialize.php");
-
+session_start();
 
 $params = json_decode(file_get_contents('php://input'),true);
 $what = $params['what'];
@@ -21,7 +21,7 @@ if ($what=='add'){
 
 
 
-$posta = array (
+$posta = array(
   'text' => "Hey Super Admins. A new resource was added to the pending queue entitled '{$title}'"
   );
 $post = json_encode($posta);
@@ -38,8 +38,7 @@ $response = curl_exec($ch);
 // close the connection, release resources used
 curl_close($ch);
 
-// do anything you want with your response
-// var_dump($response);
+
 
 $data = array(
   'success'=>$response

@@ -6,45 +6,17 @@
   </div>
   <div class="col-sm-4">
     <showcase
-      title="ADVICE"
+      title="TOOLS & TIPS"
       list="hctrl.fpvids.advice"></showcase>
   </div>
   <div class="col-sm-4">
     <showcase
-      title="OPPORTUNITIES"
+      title="WHAT?? I DIDN'T KNOW..."
       list="hctrl.fpvids.opportunities"></showcase>
   </div>
 </div>
 
 <div class="row">
-
-  <div class="col-md-3 col-sm-12" >
-    <div class="row">
-      <div class="col-sm-12" ng-if="hctrl.showsearch">
-        <button type="button" class="btn btn-primary btn-lg button_home"
-                ng-click="hctrl.newSearch()">
-          <i class="fa fa-search"></i>&nbsp;NEW SEARCH</button>
-      </div>
-      <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home"
-        data-toggle="popover" title="Opportunities"
-        data-content="See some of the new positions available in Handshake."
-        data-trigger="hover">
-          <i class="fa fa-arrows-alt"></i>&nbsp;OPPORTUNITIES</button>
-      </div>
-      <!-- <div class="col-sm-12">
-        <button type="button" class="btn btn-primary btn-lg button_home">
-          <i class="fa fa-street-view"></i>&nbsp;WHERE DO I START?</button>
-      </div> -->
-      <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home"
-        data-toggle="popover" title="Latest Additions"
-        data-content="See the 10 most recently added resources to the library."
-        data-trigger="hover" ng-click="hctrl.latestAdditions()">
-          <i class="fa fa-upload"></i>&nbsp;LATEST ADDITIONS</button>
-      </div>
-    </div>
-  </div>
 
   <div class="col-md-9 col-sm-12" >
     <div class="panel panel-default" >
@@ -58,9 +30,7 @@
 
         <div class="panel-body" ng-if="!hctrl.showsearch" layout="column" ng-cloak>
           <md-content class="md-padding">
-            <div>ENTER THE WORD THAT BEST DESCRIBES WHAT YOU'RE LOOKING FOR</div>
-            <div>Even if we don't have a matching tag, we'll take a look to
-              see what we have for you.</div><br />
+           
             <div class="prompts">{{hctrl.myHeader}}</div><br />
             <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
               <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
@@ -75,7 +45,7 @@
                   md-items="item in hctrl.querySearch(hctrl.searchText)"
                   md-item-text="item.display"
                   md-min-length="0"
-                  placeholder="How can we help?" ng-model="hctrl.search"
+                  placeholder="I need some help with..." ng-model="hctrl.search"
                   class="input-element">
                 <md-item-template>
                   <span md-highlight-text="hctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
@@ -99,7 +69,55 @@
                 list="item"></show-results>
           </div>
         </div>
+    </div>
+  </div>
+
+      <div class="col-md-3 col-sm-12">
+        <div class="row">
+          <div class="col-sm-12" ng-if="hctrl.showsearch">
+            <button type="button" class="btn btn-primary btn-lg button_home" ng-click="hctrl.newSearch()">
+          <i class="fa fa-search"></i>&nbsp;NEW SEARCH</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title text-center">Upcoming Events</h3>
+              </div>
+              <div class="panel-body">
+                <div class="col-sm-12" ng-repeat="event in hctrl.events track by $index">
+                  <span class="events_date">{{event.date}}</span><br/>
+                  <a href="{{event.link}}" class="events_listing">{{event.title}}</a><br/> <br/>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+          
+          <!-- <div class="col-sm-12">
+        <button type="button" class="btn btn-success btn-lg button_home"
+        data-toggle="popover" title="Opportunities"
+        data-content="See some of the new positions available in Handshake."
+        data-trigger="hover">
+          <i class="fa fa-arrows-alt"></i>&nbsp;OPPORTUNITIES</button>
+      </div> -->
+          <!-- <div class="col-sm-12">
+        <button type="button" class="btn btn-primary btn-lg button_home">
+          <i class="fa fa-street-view"></i>&nbsp;WHERE DO I START?</button>
+      </div> -->
+          <!-- <div class="col-sm-12">
+        <button type="button" class="btn btn-success btn-lg button_home"
+        data-toggle="popover" title="Latest Additions"
+        data-content="See the 10 most recently added resources to the library."
+        data-trigger="hover" ng-click="hctrl.latestAdditions()">
+          <i class="fa fa-upload"></i>&nbsp;LATEST ADDITIONS</button> -->
+        <!-- </div>
       </div>
+      </div> -->
   </div>
 
 <script>

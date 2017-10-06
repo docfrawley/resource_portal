@@ -28,6 +28,9 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
       }],
       prompts: ['HomeService',function (HomeService) {
         return HomeService.getPrompts();
+      }],
+      events: ['HomeService', function (HomeService) {
+        return HomeService.getEvents();
       }]
     }
   })
@@ -38,9 +41,6 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
     controllerAs: 'adctrl',
     templateUrl: 'src/admin/admin.php',
     resolve: {
-      whoDetails: ['AdminService',function (AdminService) {
-        return AdminService.getWho();
-      }],
       pending: ['AdminService',function (AdminService) {
         return AdminService.getPending();
       }],

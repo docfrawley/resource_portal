@@ -3,11 +3,10 @@
 
 angular.module('ResourceApp')
 .component('makeEdits', {
-  templateUrl: 'src/admin/edits/makeedits.html',
+  templateUrl: 'src/admin/edits/makeedits.php',
   controller: editsController,
   bindings: {
-    title:        '@',
-    who:          '<'
+    title:        '@'
   }
 });
 
@@ -17,8 +16,6 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
 
   $ctrl.$onInit = function () {
     $ctrl.madeDelete = false;
-    $ctrl.level = $ctrl.who.level;
-    $ctrl.resources = $ctrl.who.resources;
   };
 
   $ctrl.editing = false;
@@ -47,7 +44,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
   }
 
   $ctrl.doDelete=function(status){
-    AdminService.doDelete($ctrl.which_resource.numid, $ctrl.level, status)
+    AdminService.doDelete($ctrl.which_resource.numid, status)
     .then(function (response){
       $ctrl.whathappened = (response.data.success=='ps')
         ? "reduced to pending status":'deleted';
@@ -78,7 +75,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
 
     switch (howDo) {
       case 'latest':
-      AdminService.getResources('latest', $ctrl.who.numindex, 'none')
+      AdminService.getResources('latest', 'none')
       .then(function (response){
         $ctrl.ed_resources = response.data;
         $ctrl.showForm = false;
@@ -165,7 +162,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
   $ctrl.goSearch = function(){
     $ctrl.search = $ctrl.searchText;
     if ($ctrl.states.indexOf($ctrl.search)>-1){
-      AdminService.getResources($ctrl.searchwhat, $ctrl.who.numindex, $ctrl.search)
+      AdminService.getResources($ctrl.searchwhat, $ctrl.search)
       .then(function (response){
         $ctrl.toEdit = true;
         $ctrl.ed_resources = response.data;

@@ -1,3 +1,4 @@
+<? session_start(); ?>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">{{$ctrl.title}}, {{$ctrl.who.fname}}</h3>
@@ -7,11 +8,11 @@
       <div class="col-sm-12" ng-if="!$ctrl.editing">
         <div class="row">
           <div class="col-sm-12">
-            Howdy {{$ctrl.who.fname}}. How would you like to search
+            Howdy <? echo $_SESSION['fullname'] ?>. How would you like to search
             for the resource to edit or delete? <br /><br />
           </div>
           <div class="col-sm-12">
-            <div class="row" ng-if="$ctrl.who.level=='super'">
+            <div class="row" ng-if="<? echo $_SESSION['level'] ?>==super">
               <div class="col-sm-3">
                 <button type="button" class="btn btn-primary btn-block"
                     ng-click="$ctrl.howSearch('title')">BY TITLE</button>
@@ -29,7 +30,7 @@
                     ng-click="$ctrl.howSearch('latest')">LATEST UPLOADS</button>
               </div>
             </div>
-            <div class="row" ng-if="$ctrl.who.level!='super'">
+            <div class="row" ng-if="<? echo $_SESSION['level'] ?>!=super">
               <div class="col-sm-4">
                 <button type="button" class="btn btn-primary btn-block"
                     ng-click="$ctrl.howSearch('title')">BY TITLE</button>

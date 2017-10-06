@@ -1,5 +1,5 @@
 <? include_once("initialize.php");
-
+session_start();
 class resourceAdmin {
 
 	private $res_array;
@@ -42,18 +42,14 @@ class resourceAdmin {
 		return $returnArray;
 	}
 
-	function get_edit_resources($what, $numindex, $searching){
+	function get_edit_resources($what, $searching){
 		global $database;
-		$user = new userObject($numindex);
-		$level = $user->get_level();
 		switch ($what) {
 			case 'title':
 				$sql="SELECT * FROM resources WHERE title ='".$searching."'";
 				break;
 			case 'latest':
-				$user = new userObject($numindex);
-				$level = $user->get_level();
-				if ($level == 'super'){
+				if ($_SESSION['level'] == 'super'){
 					$sql="SELECT * FROM resources WHERE doshow !='d' AND doshow != 'ds' ORDER BY wupload DESC LIMIT 20";
 				} else {
 					$sql="SELECT * FROM resources WHERE who = '".$numindex."' AND doshow !='d' AND doshow != 'ds' ORDER BY wupload DESC LIMIT 20";
@@ -70,7 +66,7 @@ class resourceAdmin {
 				$sql="SELECT * FROM resources WHERE who ='".$numindex."' AND doshow !='d' AND doshow !='ds'";
 				break;
 			case 'tag':
-				$temp_array = $this->get_search_results($searching, 'views', 'a', $level);
+				$temp_array = $this->get_search_results($searching, 'views', 'a', $_SESSION['level']);
 				return $temp_array;
 				break;
 			default:
@@ -210,21 +206,43 @@ class resourceAdmin {
 
 	function addResource($tags, $type, $title, $description, $link){
 		global $database;
-		$netid = 1;
+		$netid = $_SESSION['casnetid'];
 		$doshow = 'p';
 		$today = date('U');
 		$sql = "INSERT INTO resources (";
 	  	$sql .= "title, type_resource, description, tags, who, wupload, doshow, rlink";
 	  	$sql .= ") VALUES ('";
 	  	$sql .= $database->escape_value($title)  ."', '";
-      $sql .= $database->escape_value($type)  ."', '";
-      $sql .= $database->escape_value($description)."', '";
-			$sql .= $database->escape_value($tags) ."', '";
-			$sql .= $netid ."', '";
-			$sql .= $today ."', '";
-			$sql .= $doshow ."', '";
-		  $sql .= $database->escape_value($link) ."')";
+      	$sql .= $database->escape_value($type)  ."', '";
+      	$sql .= $database->escape_value($description)."', '";
+		$sql .= $database->escape_value($tags) ."', '";
+		$sql .= $netid ."', '";
+		$sql .= $today ."', '";
+		$sql .= $doshow ."', '";
+		$sql .= $database->escape_value($link) ."')";
 		$database->query($sql);
+
+		$posta = array(
+		'text' => "The resource you just uploaded is now in the pending queue, and the super admins have been notified. Once they approve the resource, it will be visible on the site. I'll slack you when that happens."
+		);
+		$post = json_encode($posta);
+		$netid = $_SESSION['casnetid'];
+		$sql="SELECT * FROM userlist WHERE netid='".$netid."'";
+		$result_set = $database->query($sql);
+		$value = $database->fetch_array($result_set);
+		$slack_hook = $value['webhook'];
+
+		$ch = curl_init($slack_hook);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+		// curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}'
+		https://hooks.slack.com/services/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
+		// execute!
+		$response = curl_exec($ch);
+
+		// close the connection, release resources used
+		curl_close($ch);
 	}
 
 	function addResourcePDF($info, $place){

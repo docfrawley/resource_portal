@@ -1,5 +1,5 @@
 <?php include_once("initialize.php");
-
+session_start();
 class resObject {
 
 	private $title;
@@ -119,9 +119,9 @@ class resObject {
 		$database->query($sql);
 	}
 
-	function deleteResource($level, $status){
+	function deleteResource($status){
 		global $database;
-		if ($level=='super'){
+		if ($_SESSION['level']=='super'){
 			$this->doshow = ($status=='delete') ? 'ds' : 'ps';
 		} else {
 			if ($this->doshow=='p'){
@@ -150,7 +150,11 @@ class resObject {
 		$sql .= "description='". $database->escape_value($description) ."', ";
 		$sql .= "rlink='". $database->escape_value($link) ."', ";
 		$sql .= "tags='". $database->escape_value($tags) ."', ";
-		$sql .= "doshow='p' ";
+		if ($_SESSION['level']=='super') {
+			$sql .= "doshow='s' ";
+		} else {
+			$sql .= "doshow='p' ";
+		}
 		$sql .= "WHERE numid='". $this->numid . "' ";
 		$database->query($sql);
 	}
@@ -164,6 +168,31 @@ class resObject {
 		$sql .= "doshow='s' ";
 		$sql .= "WHERE numid='". $this->numid . "' ";
 		$database->query($sql);
+
+		$sql="SELECT * FROM resources WHERE numid='".$this->numid ."'";
+		$result_set = $database->query($sql);
+		$value = $database->fetch_array($result_set);
+		$who = $value['who'];
+				
+		$posta = array (
+  		'text' => "The resource you uploaded, '{$title}', has been approved and is now visible on the site. Go check it out!"
+  	);
+		$post = json_encode($posta);
+		$sql="SELECT * FROM userlist WHERE numindex='".$who."'";
+		$result_set = $database->query($sql);
+    $value = $database->fetch_array($result_set);
+    $slack_hook = $value['webhook'];
+		$ch = curl_init($slack_hook);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+		// curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}'
+		https://hooks.slack.com/services/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
+		// execute!
+		$response = curl_exec($ch);
+
+		// close the connection, release resources used
+		curl_close($ch);
 	}
 
 }

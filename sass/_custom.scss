@@ -104,6 +104,23 @@ html,body {
   padding:10px;
 }
 
+.events_date {
+  font-size: 0.75em;
+}
+
+.events_listing {
+  color: darken(#86cdcd, 15%);
+  font-size: 1.0em;
+  a {
+    text-decoration: none;
+  }
+}
+
+.events_listing:hover {
+    color: #f68931;
+    text-decoration: none;
+  }
+
 @media (max-width: 767px) {
   .image-container{
     margin-left: 20px;
