@@ -103,6 +103,23 @@ class fpAdmin {
 		return $returnArray;
 	}
 
+	function get_tools(){
+		global $database;
+		$sql="SELECT * FROM tools";
+		$result_set = $database->query($sql);
+		$returnArray = array();
+    while ($value = $database->fetch_array($result_set)) {
+			$temp_array = array(
+				'numid' => $value['numid'],
+				'title' => $value['title'],
+				'description' => $value['description'],
+				'link' => $value['link']
+			);
+			array_push($returnArray, $temp_array);
+		}
+		return $returnArray;
+	}
+
 	function get_FpagePrompt($numid){
 		global $database;
 		$sql="SELECT * FROM announcements WHERE id ='".$numid."'";

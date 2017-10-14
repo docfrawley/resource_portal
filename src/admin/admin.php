@@ -23,6 +23,9 @@ if (isset($_SESSION["casnetid"])) {
     <button type="button" class="btn btn-success btn-lg btn-block"
         ng-click="adctrl.changeModule('pending')" ng-if="<? echo $_SESSION['level'];?>==super"
         >PENDING ({{adctrl.pendingLength}})</button>
+    <a type="button" class="btn btn-success btn-lg btn-block"
+        href="admin_logout.php"
+        >LOGOUT</a>
 
   </div>
   <div class="col-sm-9">

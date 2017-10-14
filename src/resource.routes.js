@@ -31,6 +31,9 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
       }],
       events: ['HomeService', function (HomeService) {
         return HomeService.getEvents();
+      }],
+      tools: ['HomeService', function (HomeService) {
+        return HomeService.getTools();
       }]
     }
   })

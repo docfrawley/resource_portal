@@ -10,9 +10,24 @@
       list="hctrl.fpvids.advice"></showcase>
   </div>
   <div class="col-sm-4">
-    <showcase
-      title="WHAT?? I DIDN'T KNOW..."
-      list="hctrl.fpvids.opportunities"></showcase>
+    <div class="panel panel-default">
+      <div class="panel-heading text-center">
+        <h3 class="panel-title">WHAT?? I DIDN'T KNOW...</h3>
+      </div>
+      <div class="panel-body">
+        <div class="tools_listing">
+          {{hctrl.theTool.description}}... <br />
+          <br />
+          <div>
+              <a class="tool" href="{{hctrl.theTool.link}}" target="_blank">{{hctrl.theTool.title}}</a>
+          </div> 
+          <div class="sweet">
+            SWEET!!
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -87,8 +102,10 @@
               </div>
               <div class="panel-body">
                 <div class="col-sm-12" ng-repeat="event in hctrl.events track by $index">
-                  <span class="events_date">{{event.date}}</span><br/>
-                  <a href="{{event.link}}" class="events_listing">{{event.title}}</a><br/> <br/>
+                  <span class="events_date">{{event.date}} - </span><br/>
+                  <span class="events_date">{{event.time}}</span>
+                  <br/>
+                  <a href="{{event.link}}" class="events_listing" target="_blank">{{event.title}}</a><br/> <br/>
                   
                 </div>
               </div>

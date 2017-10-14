@@ -32,6 +32,17 @@ function HomeService($http, ApiPath) {
     return response;
   };
 
+  service.getTools = function() {
+    var response = $http({
+      ethod: "GET",
+      url: (ApiPath + "ajaxfiles.php"),
+      params: {
+        task: 'getTools'
+      }
+    });
+    return response;
+  };
+
   service.latestAdditions = function() {
     var response = $http({
       method: "GET",
