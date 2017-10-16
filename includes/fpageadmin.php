@@ -80,11 +80,10 @@ class fpAdmin {
   function prepare_fpage(){
     $inspiration = $this->get_fpresource('inspiration');
     $advice = $this->get_fpresource('advice');
-    $opportunities = $this->get_fpresource('opportunities');
+    // $opportunities = $this->get_fpresource('opportunities');
     $returnArray = array(
       'inspiration'   => $inspiration,
-      'advice'     => $advice,
-      'opportunities' => $opportunities
+      'advice'     => $advice
     );
     return $returnArray;
   }

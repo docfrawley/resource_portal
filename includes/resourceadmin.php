@@ -160,6 +160,7 @@ class resourceAdmin {
 
 	function tag_number($tag){
 		global $database;
+		global $database;
 		$which_tag = strtolower($tag);
 		$sql="SELECT * FROM tags WHERE tag='".$which_tag."'";
 		$result_set = $database->query($sql);
@@ -168,14 +169,15 @@ class resourceAdmin {
 	}
 
 	function get_search_results($tag, $hsearch, $what='s', $inTags){
-		if ($hsearch=='views'){
-			$this->get_resources_array($what);
+		if ($hsearch==='views'){
+			$this->get_resources_array();
 		} else {
-			$this->get_resources_rankings($what);
+			$this->get_resources_rankings();
 		}
-		$temp_array = array();
 		$the_tag = (int)$tag;
-		if ($inTags==true){
+		$temp_array = array();
+		if ($inTags=='true'){
+			
 			// $tag_id = $this->tag_number($tag);
 			foreach ($this->res_array as $value) {
 				$tags_array = explode(',', $value['tags']);
@@ -184,23 +186,23 @@ class resourceAdmin {
 				}
 			}
 		} else {
-			$str = preg_replace('/[^a-z]/i',' ', $tag);
-			// $search_array = explode(' ', $str);
-			$str = strtolower($str);
-			$numid_array = array();
-			// foreach ($search_array as $value) {
-				foreach ($this->res_array as $value) {
-					$title = strtolower($value['title']);
-					$description = strtolower($value['description']);
-					if (strpos($title, $str) !== false
-					|| strpos($description, $str)!== false){
-							array_push($numid_array, $value['numid']);
-							array_push($temp_array, $value);
-					}
+			foreach ($this->res_array as $value) {
+				// $title = $database->escape_value($value['title']);
+				// $description = $database->escape_value($value['description']);
+				$description = strtolower($value['description']);
+				$title = strtolower($value['title']);
+				// $pattern = '/[^0-9a-z]/gi';
+				// $replace = ' ';
+				// $title = preg_replace($pattern, $replace, $title);
+				// $description = preg_replace($pattern, $replace, $description);
+				
+				if (strpos($title, $tag) != false
+				|| strpos($description, $tag) != false){
+					array_push($temp_array, $value);
 				}
-			// }
+			}
+			
 		}
-		
 		return $temp_array;
 	}
 

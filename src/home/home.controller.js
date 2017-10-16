@@ -12,9 +12,7 @@ angular.module('ResourceApp')
     // console.log("what", events);
 
   var jsonObj = events.data.success.channel.item;
-  hctrl.tools = tools.data;
-  console.log(hctrl.tools);
-  
+  hctrl.tools = tools.data;  
   var toolIndex = Math.floor((Math.random() * hctrl.tools.length));
   hctrl.theTool = hctrl.tools[toolIndex];
   hctrl.changeTools = function () {
@@ -47,28 +45,6 @@ angular.module('ResourceApp')
       hctrl.events.push(event);
     }
   }
-  // hctrl.$onInit = function () {
-  //     HomeService.getEvents()
-  //   .then(function (response) {
-  //     var jsonObj = response.data.success.channel.item;
-  //     hctrl.events = [];
-  //     for (var i=0; i<11; i++){
-  //       var event = [];
-  //       var temp_title = jsonObj[i].title;
-  //       if (temp_title.indexOf('CANCELLED') === -1){
-  //         var where_end_title = temp_title.indexOf('(') -1 ;
-  //         event['title'] = temp_title.slice(0, where_end_title);
-  //         var temp_des = jsonObj[i].description;
-  //         var where_start = temp_des.indexOf(':') + 2;
-  //         var where_end = temp_des.indexOf('EDT') -1;
-  //         event['date'] = temp_des.slice(where_start, where_end);
-  //         event['link'] = jsonObj[i].link;
-  //         hctrl.events.push(event);
-  //       }
-  //     }
-  //     console.log(hctrl.events);
-  //   });
-  // };
   
     hctrl.simulateQuery = false;
     hctrl.isDisabled    = false;
@@ -112,6 +88,7 @@ angular.module('ResourceApp')
 
   hctrl.showsearch=false;
   hctrl.fpvids = fplist.data;
+  console.log("front vid: ",hctrl.fpvids);
   hctrl.headerArray = prompts.data;
   hctrl.index = 0;
   hctrl.myHeader = hctrl.headerArray[hctrl.index];
@@ -137,7 +114,7 @@ angular.module('ResourceApp')
   };
 
   hctrl.goSearch = function(hsearch){
-    hctrl.search = hctrl.searchText;
+    hctrl.search = hctrl.searchText.toLowerCase().trim();
     var inTags = hctrl.states_array.indexOf(hctrl.search)!=-1;
     var whereTag = hctrl.states_array.indexOf(hctrl.search);
     var tag = (inTags) ? hctrl.states[whereTag].id : hctrl.search;
@@ -145,11 +122,11 @@ angular.module('ResourceApp')
       .then(function (response){
         hctrl.results = response.data;
         if (hctrl.results.length>0){
-          console.log("got tag id?",hctrl.results);
+          console.log("resources: ",hctrl.results);
           hctrl.showsearch = true;
         } else {
           hctrl.notag = true;
-          console.log("got tag id?", hctrl.results);
+          console.log("nothing", hctrl.results);
         }
       })
       .catch(function (error) {

@@ -8365,6 +8365,28 @@ div.rn-carousel-indicator span {
 .button_home:visited {
   background-color: #d16309; }
 
+.new_search_button {
+  background-color: #f68931;
+  border-radius: 0;
+  border: 0;
+  font-weight: 400;
+  color: white; }
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: inherit; }
+  .panel-title > a,
+  .panel-title > small,
+  .panel-title > .small,
+  .panel-title > small > a,
+  .panel-title > .small > a {
+    color: white; }
+
+.new_search_button:hover {
+  background-color: #d16309; }
+
 .button_tag {
   width: 150px;
   height: 2.5em;

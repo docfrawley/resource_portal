@@ -1,141 +1,116 @@
-<div class="row" ng-if="!hctrl.showsearch">
-  <div class="col-sm-4">
-    <showcase
-    title="INSPIRATION"
-      list="hctrl.fpvids.inspiration"></showcase>
-  </div>
-  <div class="col-sm-4">
-    <showcase
-      title="TOOLS & TIPS"
-      list="hctrl.fpvids.advice"></showcase>
-  </div>
-  <div class="col-sm-4">
-    <div class="panel panel-default">
-      <div class="panel-heading text-center">
-        <h3 class="panel-title">WHAT?? I DIDN'T KNOW...</h3>
-      </div>
-      <div class="panel-body">
-        <div class="tools_listing">
-          {{hctrl.theTool.description}}... <br />
-          <br />
-          <div>
-              <a class="tool" href="{{hctrl.theTool.link}}" target="_blank">{{hctrl.theTool.title}}</a>
-          </div> 
-          <div class="sweet">
-            SWEET!!
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <div class="row">
+  <div class="col-sm-8 ">
 
-  <div class="col-md-9 col-sm-12" >
-    <div class="panel panel-default" >
-      <div class="panel-heading">
-        <h3 class="panel-title text-center" ng-if="!hctrl.showsearch">SEARCH RESOURCES</h3>
-        <h3 class="panel-title text-center" ng-if="hctrl.showsearch && hctrl.search!='Latest Additions'">
-            {{hctrl.results.length}} RESULTS FOR '{{hctrl.search.toUpperCase()}}'.</h3>
-        <h3 class="panel-title text-center"
-            ng-if="hctrl.search=='Latest Additions' && hctrl.showsearch">LATEST ADDITIONS</h3>
+    <div class="row" ng-if="!hctrl.showsearch">
+      <div class="col-sm-6">
+        <showcase title="INSPIRATION" list="hctrl.fpvids.inspiration"></showcase>
       </div>
+      <div class="col-sm-6">
+        <showcase title="TOOLS & TIPS" list="hctrl.fpvids.advice"></showcase>
+      </div>
+    </div>
 
-        <div class="panel-body" ng-if="!hctrl.showsearch" layout="column" ng-cloak>
-          <md-content class="md-padding">
-           
-            <div class="prompts">{{hctrl.myHeader}}</div><br />
-            <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
-              <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
-                We don't have anything that matches that request. Please try again.</div>
-              <md-autocomplete
-                  ng-disabled="hctrl.isDisabled"
-                  md-no-cache="hctrl.noCache"
-                  md-selected-item="hctrl.selectedItem"
-                  md-search-text-change="hctrl.searchTextChange(hctrl.searchText)"
-                  md-search-text="hctrl.searchText"
-                  md-selected-item-change="hctrl.selectedItemChange(item)"
-                  md-items="item in hctrl.querySearch(hctrl.searchText)"
-                  md-item-text="item.display"
-                  md-min-length="0"
-                  placeholder="I need some help with..." ng-model="hctrl.search"
-                  class="input-element">
-                <md-item-template>
-                  <span md-highlight-text="hctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-                </md-item-template>
-                <md-not-found>
-                  No tags matching "{{hctrl.searchText}}" were found, but keep typing; we'll do our best to see if we have what you request.
-                </md-not-found>
-              </md-autocomplete>
-              <br/>
-              <button type="submit" class="btn btn-primary search_button"
-                      ng-click = "hctrl.goSearch('rank')">Search By Ranking</button>
-              <button type="submit" class="btn btn-primary search_button"
-                      ng-click = "hctrl.goSearch('views')">Search By # Views</button>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title text-center" ng-if="!hctrl.showsearch">SEARCH RESOURCES</h3>
+            <h3 class="panel-title text-center" ng-if="hctrl.showsearch && hctrl.search!='Latest Additions'">
+              {{hctrl.results.length}} RESULTS FOR '{{hctrl.search.toUpperCase()}}'&nbsp;&nbsp;
+              <a type="button" class="btn btn-primary btn-xs new_search_button" ng-click="hctrl.newSearch()">
+                <i class="fa fa-search"></i>&nbsp;NEW SEARCH</a></h3>
+            
+          </div>
+        
+          <div class="panel-body" ng-if="!hctrl.showsearch" layout="column" ng-cloak>
+            <md-content class="md-padding">
+        
+              <div class="prompts">{{hctrl.myHeader}}</div>
+              <br />
+              <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
+                <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
+                  We don't have anything that matches that request. Please try again.</div>
+                <md-autocomplete ng-disabled="hctrl.isDisabled" md-no-cache="hctrl.noCache" md-selected-item="hctrl.selectedItem" md-search-text-change="hctrl.searchTextChange(hctrl.searchText)"
+                  md-search-text="hctrl.searchText" md-selected-item-change="hctrl.selectedItemChange(item)" md-items="item in hctrl.querySearch(hctrl.searchText)"
+                  md-item-text="item.display" md-min-length="0" placeholder="I need some help with..." ng-model="hctrl.search" class="input-element">
+                  <md-item-template>
+                    <span md-highlight-text="hctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                  </md-item-template>
+                  <md-not-found>
+                    No tags matching "{{hctrl.searchText}}" were found, but keep typing; we'll do our best to see if we have what you request.
+                  </md-not-found>
+                </md-autocomplete>
+                <br/>
+                <button type="submit" class="btn btn-primary search_button" ng-click="hctrl.goSearch('rank')">Search By Ranking</button>
+                <button type="submit" class="btn btn-primary search_button" ng-click="hctrl.goSearch('views')">Search By # Views</button>
               </form>
-          </md-content>
-        </div>
-        <div class="panel-body" ng-if="hctrl.showsearch">
-          <div ng-repeat="item in hctrl.results track by $index">
-            <show-results
-                title={{item.title}}
-                list="item"></show-results>
+            </md-content>
+          </div>
+          <div class="panel-body" ng-if="hctrl.showsearch">
+            <div ng-repeat="item in hctrl.results track by $index">
+              <show-results title={{item.title}} list="item"></show-results>
+            </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 
-      <div class="col-md-3 col-sm-12">
-        <div class="row">
-          <div class="col-sm-12" ng-if="hctrl.showsearch">
-            <button type="button" class="btn btn-primary btn-lg button_home" ng-click="hctrl.newSearch()">
-          <i class="fa fa-search"></i>&nbsp;NEW SEARCH</button>
+  <div class="col-sm-4 col-xs-12">
+    <div class="row" ng-if="!hctrl.showsearch">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">
+            <h3 class="panel-title">WHAT?? I DIDN'T KNOW...</h3>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title text-center">Upcoming Events</h3>
+          <div class="panel-body">
+            <div class="tools_listing">
+              {{hctrl.theTool.description}}...
+              <br />
+              <br />
+              <div>
+                <a class="tool" href="{{hctrl.theTool.link}}" target="_blank">{{hctrl.theTool.title}}</a>
               </div>
-              <div class="panel-body">
-                <div class="col-sm-12" ng-repeat="event in hctrl.events track by $index">
-                  <span class="events_date">{{event.date}} - </span><br/>
-                  <span class="events_date">{{event.time}}</span>
-                  <br/>
-                  <a href="{{event.link}}" class="events_listing" target="_blank">{{event.title}}</a><br/> <br/>
-                  
-                </div>
+              <div class="sweet">
+                SWEET!!
               </div>
             </div>
           </div>
         </div>
-
-
-          
-          <!-- <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home"
-        data-toggle="popover" title="Opportunities"
-        data-content="See some of the new positions available in Handshake."
-        data-trigger="hover">
-          <i class="fa fa-arrows-alt"></i>&nbsp;OPPORTUNITIES</button>
-      </div> -->
-          <!-- <div class="col-sm-12">
-        <button type="button" class="btn btn-primary btn-lg button_home">
-          <i class="fa fa-street-view"></i>&nbsp;WHERE DO I START?</button>
-      </div> -->
-          <!-- <div class="col-sm-12">
-        <button type="button" class="btn btn-success btn-lg button_home"
-        data-toggle="popover" title="Latest Additions"
-        data-content="See the 10 most recently added resources to the library."
-        data-trigger="hover" ng-click="hctrl.latestAdditions()">
-          <i class="fa fa-upload"></i>&nbsp;LATEST ADDITIONS</button> -->
-        <!-- </div>
       </div>
-      </div> -->
-  </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12" ng-if="hctrl.showsearch">
+        <button type="button" class="btn btn-primary btn-lg button_home" ng-click="hctrl.newSearch()">
+          <i class="fa fa-search"></i>&nbsp;NEW SEARCH</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title text-center">Upcoming Events</h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-12" ng-repeat="event in hctrl.events track by $index">
+              <span class="events_date">{{event.date}} - </span>
+              <span class="events_date">{{event.time}}</span>
+              <br/>
+              <a href="{{event.link}}" class="events_listing" target="_blank">{{event.title}}</a>
+              <br/>
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+ 
 
 <script>
 $(function () {

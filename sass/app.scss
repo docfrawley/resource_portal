@@ -28,6 +28,33 @@
   background-color: darken(#f68931,15%);
 }
 
+.new_search_button{
+  background-color: #f68931;
+  border-radius: 0;
+  border: 0;
+  font-weight:400;
+  color: white;
+}
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: ceil(($font-size-base * 1.125));
+  color: inherit;
+
+  > a,
+  > small,
+  > .small,
+  > small > a,
+  > .small > a {
+    color: white;
+  }
+}
+
+.new_search_button:hover {
+  background-color: darken(#f68931,15%);
+}
+
 .button_tag{
   width: 150px;
   height: 2.5em;
@@ -50,3 +77,4 @@ font-size: 4rem;
 .fade.ng-enter.ng-enter-active {
     opacity: 1;
 }
+
