@@ -8131,7 +8131,7 @@ button.close {
   clip: auto; }
 
 .navbar {
-  min-height: 7%;
+  min-height: 67px;
   background-color: #666666;
   border-radius: 0;
   border-bottom: medium solid #86cdcd;
@@ -8201,7 +8201,9 @@ html, body {
   background-color: #86cdcd;
   border-radius: 0;
   border: 0;
-  font-weight: bold; }
+  font-weight: bold;
+  margin-bottom: 10px;
+  width: 150px; }
 
 .search_button:hover {
   background-color: #50b7b7; }
@@ -8257,6 +8259,12 @@ html, body {
   position: absolute;
   bottom: 10%;
   right: 10%; }
+
+.noEntry {
+  border: solid 1px red;
+  color: red;
+  padding: 5px;
+  margin-top: 5px; }
 
 @media (max-width: 767px) {
   .image-container {

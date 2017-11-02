@@ -18,11 +18,21 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
     $ctrl.madeDelete = false;
   };
 
+  $ctrl.updated = false;
   $ctrl.editing = false;
   $ctrl.gotoEdit = false;
   $ctrl.simulateQuery = false;
   $ctrl.isDisabled    = false;
   $ctrl.noCache = false;
+
+  $ctrl.clearSearch = function (actionType) {
+    if (actionType=='updated'){
+      $ctrl.gotoEdit = false;
+      $ctrl.updated = true;
+    } else {
+      $ctrl.resetAll();
+    }
+  };
 
   $ctrl.editUpdate = function (index){
     $ctrl.gotoEdit = true;
@@ -41,6 +51,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
     $ctrl.toEdit = false;
     $ctrl.gotoEdit = false;
     $ctrl.showSuperList = false;
+    $ctrl.updated = false;
   }
 
   $ctrl.doDelete=function(status){
@@ -65,6 +76,7 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
 
   $ctrl.howSearch=function(howDo){
     $ctrl.notag = false;
+    $ctrl.updated = false;
     $ctrl.toEdit = false;
     $ctrl.gotoEdit = false;
     $ctrl.searchwhat = howDo;
@@ -160,7 +172,10 @@ function editsController(HomeService, AdminService, $scope, $element, $animate, 
     $ctrl.toEdit = false;
   }
   $ctrl.goSearch = function(){
+    $ctrl.updated = false;
+    $ctrl.showForm = false;
     $ctrl.search = $ctrl.searchText;
+    console.log("go search: ", $ctrl.search, $ctrl.searchwhat);
     if ($ctrl.states.indexOf($ctrl.search)>-1){
       AdminService.getResources($ctrl.searchwhat, $ctrl.search)
       .then(function (response){

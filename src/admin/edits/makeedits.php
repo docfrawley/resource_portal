@@ -69,7 +69,7 @@
                 </md-autocomplete>
                 <br/>
                 <button type="submit" class="btn btn-primary"
-                        ng-click = "$ctrl.goSearch()">GO GET THOSE RESOURCES</button>
+                        ng-click = "$ctrl.goSearch()">GO GET THOSE RESOURCES</button><br/>
                 </form>
             </md-content>
             </div>
@@ -98,7 +98,13 @@
                 <add-edit
                   what= 'edit'
                   who=  "$ctrl.who"
-                  resource = "$ctrl.which_resource"></add-edit>
+                  resource = "$ctrl.which_resource"
+                  clear-search = "$ctrl.clearSearch(actionType)"></add-edit>
+              </div>
+              <br/>
+              <div ng-if="$ctrl.updated" class="alert alert-success col-sm-12" role="alert">
+          Resource was successfully updated and is currently listed as pending. One of the super admins
+        will need to approve it so go bug them to do so.</div>
               </div>
             </div>
           </div>
@@ -159,17 +165,18 @@
 
       <div class="modal-footer">
         <div ng-if="!$ctrl.madeDelete">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCEL</button>
-          <button ng-if="$ctrl.which_resource.doshow=='p' && $ctrl.level!='super'"
-                  type="button" class="btn btn-primary"
+           <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCEL</button>
+          <? if ($_SESSION['level']=='super') { ?>
+            <button type="button" class="btn btn-primary"
           ng-click="$ctrl.doDelete('delete')">DELETE</button>
-
-          <button ng-if="$ctrl.level=='super'" type="button" class="btn btn-primary"
-          ng-click="$ctrl.doDelete('delete')">DELETE</button>
-
-          <button ng-if="$ctrl.level == 'super' && $ctrl.which_resource.doshow=='s'"
+          <button ng-if="$ctrl.which_resource.doshow=='s'"
           type="button" class="btn btn-primary"
           ng-click="$ctrl.doDelete('pending')">REDUCE TO PENDING</button>
+          <? } else { ?>
+            <button ng-if="$ctrl.which_resource.doshow=='p'"
+                  type="button" class="btn btn-primary"
+          ng-click="$ctrl.doDelete('delete')">DELETE</button>
+          <? } ?>
         </div>
         <div ng-if="$ctrl.madeDelete">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"

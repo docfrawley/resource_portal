@@ -8,7 +8,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
     <title>Resource Library</title>
 
     <!-- Bootstrap core CSS -->
@@ -47,8 +46,15 @@
 
       <div class="container" ng-app='ResourceApp' ng-strict-di>
         <div class="row">
+          <!-- Fixed position loading indicator -->
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <loading class="loading-indicator"></loading>
+            </div>
+          </div>
+          
             <ui-view></ui-view>
-            <loading-spinner></loading-spinner>
+            
         </div>
         <div class="row">
           <div class="col-sm-12 image-container">
@@ -103,6 +109,7 @@
     <script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="bower_components/fullcalendar/dist/gcal.js"></script>
     <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+  
 
     <!-- Main Modules -->
 
@@ -111,7 +118,8 @@
     <script src="src/common/common.module.js"></script>
     <script src="src/common/home.service.js"></script>
     <script src="src/common/admin.service.js"></script>
-    <script src="src/spinner/spinner.module.js"></script>
+    <script src="src/common/loading/loading.component.js"></script>
+    <script src="src/common/loading/loading.interceptor.js"></script>
 
 
     <!-- Public Module -->
@@ -124,7 +132,6 @@
     <script src="src/admin/useradmin/useradmin.component.js"></script>
     <script src="src/admin/pending/pending.component.js"></script>
     <script src="src/admin/nudge/nudgeadmin.component.js"></script>
-    <script src="src/spinner/loadingspinner.component.js"></script>
     <script src="src/home/home.controller.js"></script>
     <script src="src/admin/admin.controller.js"></script>
     <script src="lib/jquery-2.1.4.min.js"></script>

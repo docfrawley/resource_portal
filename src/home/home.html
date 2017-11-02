@@ -27,12 +27,13 @@
         
               <div class="prompts">{{hctrl.myHeader}}</div>
               <br />
-              <form ng-submit="$event.preventDefault()" name='getForm' novalidate>
+              <form ng-submit="$event.preventDefault()" novalidate>
                 <div ng-if="hctrl.notag" class="alert alert-danger" role="alert">
                   We don't have anything that matches that request. Please try again.</div>
                 <md-autocomplete ng-disabled="hctrl.isDisabled" md-no-cache="hctrl.noCache" md-selected-item="hctrl.selectedItem" md-search-text-change="hctrl.searchTextChange(hctrl.searchText)"
                   md-search-text="hctrl.searchText" md-selected-item-change="hctrl.selectedItemChange(item)" md-items="item in hctrl.querySearch(hctrl.searchText)"
-                  md-item-text="item.display" md-min-length="0" placeholder="I need some help with..." ng-model="hctrl.search" class="input-element">
+                  md-item-text="item.display" md-min-length="0" placeholder="The WORD that best describes what I'm looking for is..." 
+                  ng-model="hctrl.search" class="input-element">
                   <md-item-template>
                     <span md-highlight-text="hctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
                   </md-item-template>
@@ -40,9 +41,24 @@
                     No tags matching "{{hctrl.searchText}}" were found, but keep typing; we'll do our best to see if we have what you request.
                   </md-not-found>
                 </md-autocomplete>
+                <div ng-if="hctrl.noEntry" class="noEntry">
+                  Hard to search for nothing...so enter something!
+                </div>
                 <br/>
-                <button type="submit" class="btn btn-primary search_button" ng-click="hctrl.goSearch('rank')">Search By Ranking</button>
-                <button type="submit" class="btn btn-primary search_button" ng-click="hctrl.goSearch('views')">Search By # Views</button>
+                <div class="row">
+                  <div class = "col-sm-4">
+                    <button type="submit" class="btn btn-primary btn-md search_button" 
+                            ng-click="hctrl.goSearch('rank')">Search By Ranking</button>
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary btn-md search_button" 
+                            ng-click="hctrl.goSearch('views')">Search By # Views</button>
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary btn-md search_button" 
+                            ng-click="hctrl.goSearch('latest')">Newest Additions</button>
+                  </div>
+                </div>
               </form>
             </md-content>
           </div>

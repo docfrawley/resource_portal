@@ -13,6 +13,7 @@ angular.module('ResourceApp')
 
   var jsonObj = events.data.success.channel.item;
   hctrl.tools = tools.data;  
+  hctrl.noEntry = false;
   var toolIndex = Math.floor((Math.random() * hctrl.tools.length));
   hctrl.theTool = hctrl.tools[toolIndex];
   hctrl.changeTools = function () {
@@ -36,7 +37,12 @@ angular.module('ResourceApp')
       var temp_des = jsonObj[i].description;
       var where_start = temp_des.indexOf(':') + 2;
       var where_end = temp_des.indexOf('EDT') - 1;
+      if (where_end < 0){
+        where_end = temp_des.indexOf('EST') - 1;
+      }
+      // var where_endEST = temp_des.indexOf('EST') - 1;
       var temp_string = temp_des.slice(where_start, where_end);
+      // temp_string = temp_des.slice(where_start, where_endEST);
       var first_part = temp_string.slice(0, temp_string.indexOf(year)-1);
       var second_part = temp_string.slice(temp_string.indexOf(year) +4);
       event['date'] = first_part;
@@ -56,6 +62,7 @@ angular.module('ResourceApp')
 
 
     hctrl.querySearch = function (query) {
+      hctrl.noEntry = false;
       var results = query ? hctrl.states.filter( createFilterFor(query) ) : hctrl.states,
           deferred;
           hctrl.notag = false;
@@ -88,7 +95,6 @@ angular.module('ResourceApp')
 
   hctrl.showsearch=false;
   hctrl.fpvids = fplist.data;
-  console.log("front vid: ",hctrl.fpvids);
   hctrl.headerArray = prompts.data;
   hctrl.index = 0;
   hctrl.myHeader = hctrl.headerArray[hctrl.index];
@@ -115,23 +121,28 @@ angular.module('ResourceApp')
 
   hctrl.goSearch = function(hsearch){
     hctrl.search = hctrl.searchText.toLowerCase().trim();
-    var inTags = hctrl.states_array.indexOf(hctrl.search)!=-1;
-    var whereTag = hctrl.states_array.indexOf(hctrl.search);
-    var tag = (inTags) ? hctrl.states[whereTag].id : hctrl.search;
-    HomeService.searchRequest(tag, hsearch, 's', inTags)
-      .then(function (response){
-        hctrl.results = response.data;
-        if (hctrl.results.length>0){
-          console.log("resources: ",hctrl.results);
-          hctrl.showsearch = true;
-        } else {
-          hctrl.notag = true;
-          console.log("nothing", hctrl.results);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (hctrl.search==""){
+      hctrl.noEntry = true;
+    } else {
+      hctrl.noEntry = false;
+      var inTags = hctrl.states_array.indexOf(hctrl.search) != -1;
+      var whereTag = hctrl.states_array.indexOf(hctrl.search);
+      var tag = (inTags) ? hctrl.states[whereTag].id : hctrl.search;
+      HomeService.searchRequest(tag, hsearch, 's', inTags)
+        .then(function (response) {
+          hctrl.results = response.data;
+          if (hctrl.results.length > 0) {
+            hctrl.showsearch = true;
+          } else {
+            hctrl.notag = true;
+          }
+          console.log("what: ", hsearch, hctrl.results);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    
   };
 
   hctrl.latestAdditions =  function(){

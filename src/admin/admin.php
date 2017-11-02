@@ -11,18 +11,17 @@ if (isset($_SESSION["casnetid"])) {
     <button type="button" class="btn btn-success btn-lg btn-block"
           ng-click="adctrl.changeModule('edit')"
         >EDIT/DELETE</button>
+  <? if ($_SESSION['level'] === 'super') { ?>
     <button type="button" class="btn btn-success btn-lg btn-block"
         ng-click="adctrl.changeModule('analytics')"
         >ANALYTICS</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
-        ng-click="adctrl.changeModule('useradmin')" ng-if="<? echo $_SESSION['level'];?>==super"
-        >USER ADMIN</button>
+        ng-click="adctrl.changeModule('useradmin')" >USER ADMIN</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
-        ng-click="adctrl.changeModule('nudge')" ng-if="<? echo $_SESSION['level'];?>==super"
-        >NUDGE ADMIN</button>
+        ng-click="adctrl.changeModule('nudge')" >NUDGE ADMIN</button>
     <button type="button" class="btn btn-success btn-lg btn-block"
-        ng-click="adctrl.changeModule('pending')" ng-if="<? echo $_SESSION['level'];?>==super"
-        >PENDING ({{adctrl.pendingLength}})</button>
+        ng-click="adctrl.changeModule('pending')" >PENDING ({{adctrl.pendingLength}})</button>
+  <? } ?>
     <a type="button" class="btn btn-success btn-lg btn-block"
         href="admin_logout.php"
         >LOGOUT</a>

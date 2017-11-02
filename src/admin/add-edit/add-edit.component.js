@@ -7,7 +7,8 @@ angular.module('ResourceApp')
   controller: addEditController,
   bindings: {
     what:     '@',
-    resource: '<'
+    resource: '<',
+    clearSearch: '&'
   }
 });
 
@@ -16,6 +17,7 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
   var $ctrl = this;
 
   $ctrl.$onInit = function () {
+    $ctrl.completed = false;
     $ctrl.partOne = true;
     $ctrl.howUpload = false;
     $ctrl.pdfFile = "";
@@ -37,6 +39,7 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
       $ctrl.howUpload = ($ctrl.type_resource =='PDF Upload');
     }
     HomeService.getTags().then(function (response){
+      $ctrl.initial_list_tags = response.data;
       $ctrl.tags = response.data;
       $ctrl.tagsin = [];
       for (var i = 0; i < $ctrl.tags.length; i++) {
@@ -66,6 +69,7 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
     if ($ctrl.pdfFile !=""){
       Upload.upload({
         method: "POST",
+        // url: ('https://csrl.princeton.edu/ajax/' + "uploadPDF.php"),
         url: ('http://localhost:8888/rportal/ajax/' +"uploadPDF.php"),
         file: $ctrl.pdfFile
       }).then(function (response){
@@ -88,6 +92,18 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
   $ctrl.clearSignage = function (){
     $ctrl.updated = false;
     $ctrl.added = false;
+    $ctrl.completed = false;
+  };
+
+  $ctrl.cancelThat = function (){
+    if ($ctrl.what=="add"){
+      $ctrl.type_resource = "Link";
+      $ctrl.title = "";
+      $ctrl.description = "";
+      $ctrl.rlink = "";
+    } else {
+      $ctrl.clearSearch({actionType: 'cancel'});
+    }
   };
 
   $ctrl.nowUpload = function(){
@@ -102,18 +118,24 @@ function addEditController(HomeService, AdminService, $scope, $element, Upload) 
               $ctrl.type_resource, $ctrl.title, $ctrl.description, $ctrl.rlink)
       .then(function (response){
         if ($ctrl.what=='add'){
-          $ctrl.added = true;
-          for (var i = 0; i < $ctrl.tagsin.length; i++) {
-            if ($ctrl.tagsin[i].show){
-              $ctrl.tagsin[i].show = false;
-            }
-          };
+          // for (var i = 0; i < $ctrl.tagsin.length; i++) {
+          //   if ($ctrl.tagsin[i].show){
+          //     $ctrl.tagsin[i].show = false;
+          //   }
+          // };
+          $ctrl.tags = $ctrl.initial_list_tags;
+          $ctrl.tagsin = [];
           $ctrl.type_resource = "Link";
           $ctrl.title = "";
           $ctrl.description = "";
           $ctrl.rlink = "";
+          $ctrl.added = true;
         } else {
-          $ctrl.updated = true;
+          $ctrl.type_resource = "Link";
+          $ctrl.title = "";
+          $ctrl.description = "";
+          $ctrl.rlink = "";
+          $ctrl.clearSearch({actionType: 'updated'});
         }
         $ctrl.partOne = !$ctrl.partOne;
       })

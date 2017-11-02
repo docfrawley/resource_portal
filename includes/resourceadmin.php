@@ -66,7 +66,11 @@ class resourceAdmin {
 				$sql="SELECT * FROM resources WHERE who ='".$numindex."' AND doshow !='d' AND doshow !='ds'";
 				break;
 			case 'tag':
-				$temp_array = $this->get_search_results($searching, 'views', 'a', $_SESSION['level']);
+				$sql="SELECT * from tags WHERE tag='".$searching."'";
+				$result_set = $database->query($sql);
+				$value = $database->fetch_array($result_set);
+				$tagid = $value['id'];
+				$temp_array = $this->get_search_results($tagid, 'views', 'a', $_SESSION['level']);
 				return $temp_array;
 				break;
 			default:
@@ -130,6 +134,16 @@ class resourceAdmin {
 		}
 	}
 
+	function get_latest_uploads($what = 's'){
+		global $database;
+		$sql="SELECT * FROM resources WHERE doshow ='s' ORDER BY wupload DESC";
+		$result_set = $database->query($sql);
+		while ($value = $database->fetch_array($result_set)) {
+			$value['wupload'] = date('m/d/y',$value['wupload']);
+			array_push($this->res_array, $value);
+		}
+	}
+
 	function get_resources_rankings($what='s'){
 		global $database;
 		$this->res_array = array();
@@ -160,7 +174,6 @@ class resourceAdmin {
 
 	function tag_number($tag){
 		global $database;
-		global $database;
 		$which_tag = strtolower($tag);
 		$sql="SELECT * FROM tags WHERE tag='".$which_tag."'";
 		$result_set = $database->query($sql);
@@ -171,14 +184,16 @@ class resourceAdmin {
 	function get_search_results($tag, $hsearch, $what='s', $inTags){
 		if ($hsearch==='views'){
 			$this->get_resources_array();
-		} else {
+		} elseif ($hsearch==='rank') {
 			$this->get_resources_rankings();
+		} else {
+			$this->get_latest_uploads();
 		}
-		$the_tag = (int)$tag;
 		$temp_array = array();
+		$tag_admin = new tagAdmin();
 		if ($inTags=='true'){
-			
-			// $tag_id = $this->tag_number($tag);
+			$the_tag = (int)$tag;
+			$tag_admin->add_hit($the_tag);
 			foreach ($this->res_array as $value) {
 				$tags_array = explode(',', $value['tags']);
 				if (in_array($the_tag, $tags_array)){
@@ -201,6 +216,7 @@ class resourceAdmin {
 					array_push($temp_array, $value);
 				}
 			}
+			$tag_admin->register_notag($tag, $temp_array);
 			
 		}
 		return $temp_array;
@@ -210,18 +226,23 @@ class resourceAdmin {
 		global $database;
 		$netid = $_SESSION['casnetid'];
 		$doshow = 'p';
+		$the_type = $database->escape_value($type);
+		$the_link = $database->escape_value($link);
+		if (strpos($the_link, 'lynda') !== false){
+			$the_type = 'lynda';
+		}
 		$today = date('U');
 		$sql = "INSERT INTO resources (";
 	  	$sql .= "title, type_resource, description, tags, who, wupload, doshow, rlink";
 	  	$sql .= ") VALUES ('";
 	  	$sql .= $database->escape_value($title)  ."', '";
-      	$sql .= $database->escape_value($type)  ."', '";
+      	$sql .= $the_type  ."', '";
       	$sql .= $database->escape_value($description)."', '";
 		$sql .= $database->escape_value($tags) ."', '";
 		$sql .= $netid ."', '";
 		$sql .= $today ."', '";
 		$sql .= $doshow ."', '";
-		$sql .= $database->escape_value($link) ."')";
+		$sql .= $the_link ."')";
 		$database->query($sql);
 
 		$posta = array(

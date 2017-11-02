@@ -3,9 +3,7 @@
         <div ng-if="$ctrl.added" class="alert alert-success" role="alert">
           Resource was added successfully and is currently listed as pending. One of the super admins
         will need to approve it so go bug them to do so.</div>
-        <div ng-if="$ctrl.updated" class="alert alert-success" role="alert">
-          Resource was successfully updated and is currently listed as pending. One of the super admins
-        will need to approve it so go bug them to do so.</div>
+        
       <br /><div ng-if="$ctrl.partOne">
         <form>
           <div class="row">
@@ -59,18 +57,23 @@
               </div>
             </div>
           </div>
-          <div ng-if="$ctrl.what=='add'">
-            <button type="submit" class="btn btn-primary"  ng-if="$ctrl.howUpload"
-                ng-click="$ctrl.partTwopdf()">UPLOAD</button>
-            <button type="submit" class="btn btn-success" ng-if="!$ctrl.howUpload"
-                ng-click="$ctrl.partTwo()">UPLOAD</button>
+          <div class="row">
+            <div class="col-sm-4">
+              <div ng-if="$ctrl.what=='add'">
+                <button type="submit" class="btn btn-primary" ng-if="$ctrl.howUpload" ng-click="$ctrl.partTwopdf()">UPLOAD</button>
+                <button type="submit" class="btn btn-success" ng-if="!$ctrl.howUpload" ng-click="$ctrl.partTwo()">UPLOAD</button>
+              </div>
+              <div ng-if="$ctrl.what=='edit'">
+                <button type="submit" class="btn btn-primary" ng-if="$ctrl.howUpload" ng-click="$ctrl.partTwopdf()">MOVE ON TO TAGS</button>
+                <button type="submit" class="btn btn-success" ng-if="!$ctrl.howUpload" ng-click="$ctrl.partTwo()">MOVE ON TO TAGS</button>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <button type="submit" class="btn btn-info" ng-click="$ctrl.cancelThat()">CANCEL</button>
+            </div>
           </div>
-          <div ng-if="$ctrl.what=='edit'">
-            <button type="submit" class="btn btn-primary"  ng-if="$ctrl.howUpload"
-                ng-click="$ctrl.partTwopdf()">MOVE ON TO TAGS</button>
-            <button type="submit" class="btn btn-success" ng-if="!$ctrl.howUpload"
-                ng-click="$ctrl.partTwo()">MOVE ON TO TAGS</button>
-          </div>
+          
+          
         </form>
       </div>
 
@@ -98,7 +101,13 @@
         <div class="row">
           <div class="col-sm-6">
             <button type="submit" class="btn btn-success btn-lg btn-block"
-                ng-click="$ctrl.nowUpload()">NOW UPLOAD</button>
+                    ng-click="$ctrl.nowUpload()"
+                    ng-if="$ctrl.what=='add'"
+                    >NOW UPLOAD</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" 
+                    ng-click="$ctrl.nowUpload()"
+                    ng-if="$ctrl.what!='add'"
+                    >NOW UPDATE</button>
           </div>
           <div class="col-sm-6">
             <button type="submit" class="btn btn-info btn-lg btn-block"

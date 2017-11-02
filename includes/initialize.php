@@ -25,4 +25,5 @@ include_once(LIB_PATH.DS.'resobject.php');
 include_once(LIB_PATH.DS.'resourceadmin.php');
 include_once(LIB_PATH.DS.'useradmin.php');
 include_once(LIB_PATH.DS.'userobject.php');
+include_once(LIB_PATH.DS.'tagadmin.php');
 ?>

@@ -14,6 +14,10 @@
           <span ng-if="$ctrl.list.type_resource=='Link'">
               <a href="{{$ctrl.list.rlink}}" target="_blank">
                 <img src="img/link.jpg" class="img-fluid"/></a></span>
+
+          <span ng-if="$ctrl.list.type_resource=='lynda'">
+            <a href="{{$ctrl.list.rlink}}" target="_blank">
+              <img src="img/lynda.jpg" class="img-fluid" /></a></span>
         </div>
         <thumbs
           numviews    = "$ctrl.list.numviews"
@@ -29,6 +33,7 @@
       <div>
         {{$ctrl.list.description}}
       </div>
+      <div><i>uploaded: {{$ctrl.list.wupload}}</i></div>
     </div>
   <div>
 
